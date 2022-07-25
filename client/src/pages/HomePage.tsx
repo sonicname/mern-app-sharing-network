@@ -1,5 +1,4 @@
-import React from "react";
-import SharedLayout from "../components/layouts/SharedLayout";
+import { SharedLayout } from "../components/layouts";
 
 const HomePage = () => {
   return (
