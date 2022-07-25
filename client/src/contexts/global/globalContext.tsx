@@ -33,7 +33,6 @@ export const GlobalProvider = (props: { children: ReactNode }) => {
     ...globalState,
     switchDarkMode,
     changeShowMenu,
-    dispatch,
   };
 
   return <GlobalContext.Provider value={values} {...props} />;
