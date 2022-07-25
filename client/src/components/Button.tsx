@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import classNames from "classnames";
-import Loading from "../loading/Loading";
+import Loading from "./Loading";
 
 export interface IButtonProps {
   children: ReactNode;
