@@ -17,7 +17,7 @@ const Header = () => {
           <div className="flex items-center gap-x-8">
             <NavLinkItem to={"/resources"}>Resources</NavLinkItem>
             <NavLinkItem to={"/about"}>About me</NavLinkItem>
-            <Button onClick={() => navigate("/signin")} type={"primary"}>
+            <Button primary onClick={() => navigate("/signin")}>
               Get Started
             </Button>
           </div>
