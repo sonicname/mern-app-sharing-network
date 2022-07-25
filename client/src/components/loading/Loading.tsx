@@ -1,12 +1,12 @@
 import React from "react";
 import classNames from "classnames";
 
-interface ILoadingProps {
+export interface ILoadingProps {
   className?: string;
-  padding: 1 | 2 | 3 | 5;
+  padding?: 1 | 2 | 3 | 4;
 }
 
-const Loading = ({ className, padding }: ILoadingProps) => {
+const Loading = ({ className, padding = 3 }: ILoadingProps) => {
   return (
     <div
       className={classNames(

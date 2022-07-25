@@ -1,7 +1,4 @@
 // YourComponent.stories.ts|tsx
-
-import React from "react";
-
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Button, IButtonProps } from "../components/buttons";
 

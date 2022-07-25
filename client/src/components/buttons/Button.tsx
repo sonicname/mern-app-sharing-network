@@ -23,10 +23,10 @@ const Button = ({
     <button
       type={type}
       className={classNames(
-        "relative px-6 py-3 text-white font-semibold rounded-lg shadow-lg hover:opacity-75 duration-75",
+        "relative px-6 py-3 text-white font-semibold rounded-lg shadow-lg hover:opacity-75 duration-75 dark:!text-white",
         primary
           ? `bg-primary text-white border border-primary`
-          : "bg-transparent text-text1 border border-gray-400",
+          : "bg-transparent text-text1 border border-text2",
         isLoading && "text-transparent",
         className
       )}
