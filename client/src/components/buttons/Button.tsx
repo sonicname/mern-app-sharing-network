@@ -2,26 +2,32 @@ import { ReactNode } from "react";
 import classNames from "classnames";
 import Loading from "../loading/Loading";
 
-interface IButtonProps {
+export interface IButtonProps {
   children: ReactNode;
   onClick: () => void;
   className?: string;
-  type: string;
   isLoading?: boolean;
+  primary?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 const Button = ({
   children,
   onClick,
   className,
-  type,
   isLoading,
+  primary,
+  type,
 }: IButtonProps) => {
   return (
     <button
+      type={type}
       className={classNames(
-        "relative p-3 text-white font-semibold rounded-xl shadow-sm hover:opacity-75 duration-75",
-        `bg-${type}`,
+        "relative px-6 py-3 text-white font-semibold rounded-lg shadow-lg hover:opacity-75 duration-75 dark:!text-white",
+        primary
+          ? `bg-primary text-white border border-primary`
+          : "bg-transparent text-text1 border border-text2",
+        isLoading && "text-transparent",
         className
       )}
       onClick={onClick}
@@ -29,8 +35,13 @@ const Button = ({
     >
       {children}
       {isLoading && (
-        <div className={`absolute inset-0 bg-${type} rounded-xl`}>
-          <Loading padding={2} />
+        <div
+          className={classNames(
+            "absolute inset-0 rounded-xl",
+            primary ? "bg-primary" : "bg-transparent"
+          )}
+        >
+          <Loading padding={3} />
         </div>
       )}
     </button>
