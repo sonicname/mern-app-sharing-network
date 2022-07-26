@@ -7,6 +7,7 @@ import {
   IGlobalState,
   useGlobalContext,
 } from "../../contexts/global/globalContext";
+import NavSwitchDarkMode from "../navbar/NavSwitchDarkMode";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -28,10 +29,11 @@ const Header = () => {
 
           <div
             className={classNames(
-              "shadow-lg opacity-0 invisible rounded-md absolute top-[150%] right-0 left-0 flex flex-col p-4 lg:p-0 right-0 lg:flex-row lg:gap-x-8 lg:items-center lg:static lg:rounded-none lg:shadow-none lg:opacity-100 lg:visible",
+              "shadow-lg bg-white dark:bg-darkSecondary opacity-0 invisible rounded-md absolute top-[150%] right-0 left-0 flex flex-col p-4 lg:p-0 right-0 lg:flex-row lg:gap-x-8 lg:items-center lg:static lg:rounded-none lg:shadow-none lg:opacity-100 lg:visible lg:bg-transparent lg:dark:bg-transparent",
               showMenu && "!opacity-100 !visible bg-white"
             )}
           >
+            <NavSwitchDarkMode />
             <NavLinkItem to={"/gallery"}>Gallery</NavLinkItem>
             <NavLinkItem to={"/about"}>About me</NavLinkItem>
             <Button primary onClick={() => navigate("/signin")}>

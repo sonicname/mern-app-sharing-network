@@ -9,10 +9,12 @@ export interface IGlobalState {
   changeShowMenu: () => void;
 }
 
+const theme = localStorage.getItem("theme");
+
 const GlobalContext = createContext<IGlobalState | null>(null);
 
 const initialState: IGlobalState = {
-  dark: false,
+  dark: theme === "dark",
   showMenu: false,
   switchDarkMode: () => {},
   changeShowMenu: () => {},
@@ -23,6 +25,21 @@ export const GlobalProvider = (props: { children: ReactNode }) => {
 
   const switchDarkMode = () => {
     dispatch({ type: GlobalAction.CHANGE_DARKMODE });
+    if (!theme) {
+      !globalState.dark
+        ? localStorage.setItem("theme", "dark")
+        : localStorage.setItem("theme", "light");
+    } else {
+      !globalState.dark
+        ? localStorage.setItem("theme", "dark")
+        : localStorage.setItem("theme", "light");
+    }
+
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   };
 
   const changeShowMenu = () => {
