@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useReducer } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import globalReducers from "./globalReducers";
 import { GlobalAction } from "./globalAction";
 
@@ -23,14 +29,13 @@ const initialState: IGlobalState = {
 export const GlobalProvider = (props: { children: ReactNode }) => {
   const [globalState, dispatch] = useReducer(globalReducers, initialState);
 
-  const switchDarkMode = () => {
-    dispatch({ type: GlobalAction.CHANGE_DARKMODE });
+  useEffect(() => {
     if (!theme) {
-      !globalState.dark
+      globalState.dark
         ? localStorage.setItem("theme", "dark")
         : localStorage.setItem("theme", "light");
     } else {
-      !globalState.dark
+      globalState.dark
         ? localStorage.setItem("theme", "dark")
         : localStorage.setItem("theme", "light");
     }
@@ -40,6 +45,10 @@ export const GlobalProvider = (props: { children: ReactNode }) => {
     } else {
       document.documentElement.classList.remove("dark");
     }
+  }, [globalState.dark]);
+
+  const switchDarkMode = () => {
+    dispatch({ type: GlobalAction.CHANGE_DARKMODE });
   };
 
   const changeShowMenu = () => {
