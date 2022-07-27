@@ -3,8 +3,8 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
+import "react-toastify/dist/ReactToastify.css";
 import Loading from "./components/Loading";
 import { GlobalProvider } from "./contexts/global";
 
