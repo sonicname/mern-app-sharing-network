@@ -6,7 +6,7 @@ export interface ILoadingProps {
   padding?: 1 | 2 | 3 | 4;
 }
 
-const Loading = ({ className, padding = 3 }: ILoadingProps) => {
+const Loading = ({ className, padding = 2 }: ILoadingProps) => {
   return (
     <div
       className={classNames(

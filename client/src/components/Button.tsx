@@ -41,7 +41,7 @@ const Button = ({
             primary ? "bg-primary" : "bg-transparent"
           )}
         >
-          <Loading padding={3} />
+          <Loading padding={2} />
         </div>
       )}
     </button>

@@ -1,15 +1,10 @@
-import React from "react";
-import classNames from "classnames";
+import { IconProps } from "./typesIcon";
 
-interface IconProps {
-  className?: string;
-}
-
-const IconMoon = ({ className }: IconProps) => {
+const IconMoon = ({ className = "h-6 w-6" }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={classNames("h-5 w-5 duration-200", className)}
+      className={`duration-200 ${className}`}
       fill="none"
       viewBox="0 0 24 24"
       stroke="#B2B3BD"
