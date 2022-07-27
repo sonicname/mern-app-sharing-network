@@ -1,9 +1,6 @@
 import React from "react";
 import Toggle from "../Toggle";
-import {
-  IGlobalState,
-  useGlobalContext,
-} from "../../contexts/global/globalContext";
+import { IGlobalState, useGlobalContext } from "../../contexts/global";
 
 const NavSwitchDarkMode = () => {
   const { dark, switchDarkMode } = useGlobalContext() as IGlobalState;

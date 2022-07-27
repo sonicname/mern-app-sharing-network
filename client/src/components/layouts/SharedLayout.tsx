@@ -7,7 +7,7 @@ interface ISharedLayoutProps {
 
 const SharedLayout = ({ children }: ISharedLayoutProps) => {
   return (
-    <div className="max-w-full min-h-screen flex flex-col bg-whiteSoft dark:bg-darkbg dark:text-white">
+    <div className="max-w-full min-h-screen flex flex-col bg-lite dark:bg-darkbg dark:text-white">
       <Header />
       {children}
     </div>

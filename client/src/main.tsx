@@ -6,9 +6,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import Loading from "./components/Loading";
-import { GlobalProvider } from "./contexts/global/globalContext";
+import { GlobalProvider } from "./contexts/global";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
+const SignUpPage = lazy(() => import("./pages/SignUpPage"));
+// @ts-ignore
+const SignInPage = lazy(() => import("./pages/SignInPage"));
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <>
@@ -23,6 +26,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/signin" element={<SignInPage />} />
           </Routes>
         </BrowserRouter>
       </Suspense>

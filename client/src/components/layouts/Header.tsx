@@ -3,10 +3,7 @@ import { Container } from "./index";
 import classNames from "classnames";
 import { Button } from "../index";
 import { NavHamburger, NavLinkItem, NavSearch } from "../navbar";
-import {
-  IGlobalState,
-  useGlobalContext,
-} from "../../contexts/global/globalContext";
+import { IGlobalState, useGlobalContext } from "../../contexts/global";
 import NavSwitchDarkMode from "../navbar/NavSwitchDarkMode";
 
 const Header = () => {
