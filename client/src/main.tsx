@@ -10,7 +10,6 @@ import { GlobalProvider } from "./contexts/global";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));
-// @ts-ignore
 const SignInPage = lazy(() => import("./pages/SignInPage"));
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
