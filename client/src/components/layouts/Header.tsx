@@ -26,8 +26,9 @@ const Header = () => {
 
           <div
             className={classNames(
-              "shadow-lg bg-white dark:bg-darkSecondary opacity-0 invisible rounded-md absolute top-[150%] right-0 left-0 flex flex-col p-4 lg:p-0 right-0 lg:flex-row lg:gap-x-8 lg:items-center lg:static lg:rounded-none lg:shadow-none lg:opacity-100 lg:visible lg:bg-transparent lg:dark:bg-transparent",
-              showMenu && "!opacity-100 !visible bg-white"
+              "shadow-lg bg-white dark:bg-darkSecondary scale-0 invisible rounded-md fixed inset-0 top-[10%] flex flex-col p-4 right-0 z-20 duration-200",
+              "lg:flex-row lg:gap-x-8 lg:items-center lg:static lg:rounded-none lg:shadow-none lg:opacity-100 lg:visible lg:bg-transparent lg:dark:bg-transparent lg:p-0 lg:scale-100",
+              showMenu && "!scale-100 !visible"
             )}
           >
             <NavSwitchDarkMode />

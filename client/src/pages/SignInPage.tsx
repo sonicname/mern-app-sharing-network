@@ -1,30 +1,31 @@
 import { Container, SharedLayout } from "../components/layouts";
-import { FieldAuth } from "../components/form";
-import { IconEmail, IconLock, IconUser } from "../components/icons";
-import { Button } from "../components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schemaSignUp } from "../validation/schema";
+import { schemaLogin } from "../validation/schema";
+import { IconLock, IconEmail } from "../components/icons";
+import { FieldAuth } from "../components/form";
+import { Button } from "../components";
 import { NavLink } from "react-router-dom";
 
-const SignUpPage = () => {
+const SignInPage = () => {
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onSubmit",
-    resolver: yupResolver(schemaSignUp),
+    resolver: yupResolver(schemaLogin),
   });
+
   return (
     <SharedLayout>
       <Container className="flex items-center justify-center">
         <div className="bg-white shadow-md rounded-xl dark:bg-darkSecondary mt-6 max-w-[580px] w-full py-6 px-[20px] lg:p-[40px]">
           <h1 className="text-text1 text-3xl dark:text-white font-bold text-center">
-            Getting Started
+            Sign In
           </h1>
-          <p className="text-text2 text-sm font-medium dark:text-text3 mt-5 text-center">
-            Create an account to continue and connect with the people.
+          <p className="text-text2 text-[12px] lg:text-sm font-medium dark:text-text3 mt-5 text-center">
+            Login to continue and connect with the people.
           </p>
 
           <form
@@ -42,15 +43,6 @@ const SignUpPage = () => {
 
             <FieldAuth
               control={control}
-              type={"text"}
-              name={"username"}
-              icon={<IconUser className="h-4 w-4" />}
-              placeholder={"Enter your username..."}
-              error={errors.username?.message as unknown as string}
-            />
-
-            <FieldAuth
-              control={control}
               type={"password"}
               name={"password"}
               icon={<IconLock className="h-4 w-4" />}
@@ -59,17 +51,17 @@ const SignUpPage = () => {
             />
 
             <p className="text-text1 text-sm text-center font-medium dark:text-text4">
-              Already have an account?{" "}
+              Don't have an account?{" "}
               <NavLink
                 className="text-primary font-semibold text-sm underline"
-                to={"/signin"}
+                to={"/signup"}
               >
-                Login
+                Sign up
               </NavLink>
             </p>
 
             <Button isLoading={isSubmitting} primary onClick={() => {}}>
-              Sign Up
+              Login
             </Button>
           </form>
         </div>
@@ -78,4 +70,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignInPage;
