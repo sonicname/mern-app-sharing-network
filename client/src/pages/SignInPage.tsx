@@ -6,8 +6,10 @@ import { IconLock, IconEmail } from "../components/icons";
 import { FieldAuth } from "../components/form";
 import { Button } from "../components";
 import { NavLink } from "react-router-dom";
+import { IGlobalState, useGlobalContext } from "../contexts/global";
 
 const SignInPage = () => {
+  const { toggleShowPass, showPass } = useGlobalContext() as IGlobalState;
   const {
     control,
     handleSubmit,
@@ -20,7 +22,7 @@ const SignInPage = () => {
   return (
     <SharedLayout>
       <Container className="flex items-center justify-center">
-        <div className="bg-white shadow-md rounded-xl dark:bg-darkSecondary mt-6 max-w-[580px] w-full py-6 px-[20px] lg:p-[40px]">
+        <div className="bg-white shadow-md rounded-xl dark:bg-darkSecondary mt-6 max-w-[520px] w-full py-6 px-[20px] lg:p-[40px]">
           <h1 className="text-text1 text-3xl dark:text-white font-bold text-center">
             Sign In
           </h1>
@@ -43,11 +45,14 @@ const SignInPage = () => {
 
             <FieldAuth
               control={control}
-              type={"password"}
+              type={showPass ? "text" : "password"}
               name={"password"}
               icon={<IconLock className="h-4 w-4" />}
               placeholder={"Enter your password..."}
               error={errors.password?.message as unknown as string}
+              isPasswordField={true}
+              onClickIconPass={toggleShowPass}
+              showPass={showPass}
             />
 
             <p className="text-text1 text-sm text-center font-medium dark:text-text4">

@@ -6,13 +6,15 @@ import {
   useReducer,
 } from "react";
 import globalReducers from "./globalReducers";
-import { GlobalAction } from "./globalAction";
+import { Action } from "./globalAction";
 
 export interface IGlobalState {
   dark: boolean;
   showMenu: boolean;
+  showPass: boolean;
   switchDarkMode: () => void;
   changeShowMenu: () => void;
+  toggleShowPass: () => void;
 }
 
 const theme = localStorage.getItem("theme");
@@ -22,13 +24,16 @@ const GlobalContext = createContext<IGlobalState | null>(null);
 const initialState: IGlobalState = {
   dark: theme === "dark",
   showMenu: false,
+  showPass: false,
   switchDarkMode: () => {},
   changeShowMenu: () => {},
+  toggleShowPass: () => {},
 };
 
 export const GlobalProvider = (props: { children: ReactNode }) => {
   const [globalState, dispatch] = useReducer(globalReducers, initialState);
 
+  // check darkmode
   useEffect(() => {
     if (!theme) {
       globalState.dark
@@ -48,17 +53,22 @@ export const GlobalProvider = (props: { children: ReactNode }) => {
   }, [globalState.dark]);
 
   const switchDarkMode = () => {
-    dispatch({ type: GlobalAction.CHANGE_DARKMODE });
+    dispatch({ type: Action.CHANGE_DARKMODE });
   };
 
   const changeShowMenu = () => {
-    dispatch({ type: GlobalAction.SET_SHOW });
+    dispatch({ type: Action.SET_SHOW });
+  };
+
+  const toggleShowPass = () => {
+    dispatch({ type: Action.TOGGLE_SHOW_PASS });
   };
 
   const values = {
     ...globalState,
     switchDarkMode,
     changeShowMenu,
+    toggleShowPass,
   };
 
   return <GlobalContext.Provider value={values} {...props} />;
