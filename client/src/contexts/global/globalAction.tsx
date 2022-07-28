@@ -1,9 +1,10 @@
 export interface IGlobalAction {
-  type: GlobalAction;
+  type: Action;
   payload?: any;
 }
 
-export enum GlobalAction {
+export enum Action {
   CHANGE_DARKMODE = "CHANGE_DARKMODE",
   SET_SHOW = "SET_SHOW",
+  TOGGLE_SHOW_PASS = "TOGGLE_SHOW_PASS",
 }
