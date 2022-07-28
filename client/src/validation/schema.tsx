@@ -3,26 +3,26 @@ import * as yup from "yup";
 export const schemaLogin = yup.object({
   email: yup
     .string()
-    .required("Email không được để trống!")
-    .email("Email không hợp lệ"),
+    .required("Email cannot be empty!")
+    .email("Invalid email!"),
   password: yup
     .string()
-    .required("Mật khẩu không được để trống")
-    .min(8, "Mật khẩu phải dài hơn 8 kí tự"),
+    .required("Password cannot be empty!")
+    .min(8, "Password must be longer than 8 characters!"),
 });
 
 export const schemaSignUp = yup.object({
   email: yup
     .string()
-    .required("Email không được để trống!")
-    .email("Email không hợp lệ"),
+    .required("Email cannot be empty!")
+    .email("Invalid email!"),
   password: yup
     .string()
-    .required("Mật khẩu không được để trống")
-    .min(8, "Mật khẩu phải dài hơn 8 kí tự"),
+    .required("Password cannot be empty!")
+    .min(8, "Password must be longer than 8 characters!"),
   username: yup
     .string()
-    .required("Username không được để trống!")
-    .min(3, "Username khẩu phải dài hơn 3 kí tự")
-    .max(30, "Username khẩu phải dài hơn 30 kí tự"),
+    .required("Username cannot be empty!")
+    .min(3, "Username must be longer than 3 characters!")
+    .max(30, "Username must be less than 30 characters!"),
 });
