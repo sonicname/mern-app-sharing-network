@@ -33,7 +33,7 @@ const Header = () => {
           >
             <NavSwitchDarkMode />
             <NavLinkItem to={"/gallery"}>Gallery</NavLinkItem>
-            <NavLinkItem to={"/about"}>About me</NavLinkItem>
+            <NavLinkItem to={"/storage"}>Storage</NavLinkItem>
             <Button primary onClick={() => navigate("/signin")}>
               Get Started
             </Button>
