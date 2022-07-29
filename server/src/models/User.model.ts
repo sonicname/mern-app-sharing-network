@@ -35,11 +35,4 @@ UserSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-UserSchema.methods.createJWT = function () {
-  return jwt.sign({ userID: this._id }, process.env["JWT_SECRET"] as string, {
-    expiresIn: process.env["JWT_LIFETIME"] as string,
-  });
-};
-
-// @ts-ignore
 export default model("Users", UserSchema);
