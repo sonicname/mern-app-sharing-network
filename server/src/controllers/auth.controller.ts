@@ -60,4 +60,27 @@ export const registerUser = async (req: Request, res: Response) => {
   });
 };
 
-export const updateUser = async (req: Request, res: Response) => {};
+export const updateUser = async (req: Request, res: Response) => {
+  const { email, password, username } = req.body as IExtentRequestBody;
+  if(!email || !password || !username) {
+    throw new BadRequest("Please provide all email, password, username");
+  }
+
+  const user = await User.findOne({ _id: req.user?.userID }).select("+password");
+
+  if(user) {
+    user.email = email;
+    user.username = username;
+    user.password = password;
+  } else {
+    throw new UnauthenticatedError("Invalid Credentials");
+  }
+
+  await user.save();
+  const token = generateJwt(user._id);
+  return res.status(StatusCodes.OK).json({
+    email: user.email,
+    username: user.username,
+    token
+  })
+};
