@@ -1,11 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { CustomError } from "@errors/index";
 import { StatusCodes } from "http-status-codes";
-
-interface IError {
-  statusCode: number;
-  message: string;
-}
+import { IError } from "@interfaces/index";
 
 export const errorHandle = (
   error: any,

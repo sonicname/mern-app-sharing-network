@@ -3,15 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequest, UnauthenticatedError } from "@errors/index";
 import User from "@models/User.model";
 import { generateJwt, comparePassword } from "@utils/index";
-
-interface IRequest {
-  email: string;
-  password: string;
-}
-
-interface IExtentRequestBody extends IRequest {
-  username: string;
-}
+import { IExtentRequestBody, IRequest } from "@interfaces/index";
 
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body as IRequest;
@@ -62,13 +54,15 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   const { email, password, username } = req.body as IExtentRequestBody;
-  if(!email || !password || !username) {
+  if (!email || !password || !username) {
     throw new BadRequest("Please provide all email, password, username");
   }
 
-  const user = await User.findOne({ _id: req.user?.userID }).select("+password");
+  const user = await User.findOne({ _id: req.user?.userID }).select(
+    "+password"
+  );
 
-  if(user) {
+  if (user) {
     user.email = email;
     user.username = username;
     user.password = password;
@@ -81,6 +75,6 @@ export const updateUser = async (req: Request, res: Response) => {
   return res.status(StatusCodes.OK).json({
     email: user.email,
     username: user.username,
-    token
-  })
+    token,
+  });
 };

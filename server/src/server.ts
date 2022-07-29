@@ -9,18 +9,34 @@ import { checkPortAndDb } from "@utils/validation";
 import { connectMongo } from "@db/index";
 import { errorHandle, notFound } from "@middlewares/index";
 import { routes } from "@routes/index";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 
 const app = express();
 
 // middleware
-if (process.env["NODE_ENV"] !== "production") {
+if (process.env["NODE_ENV"] === "dev") {
   app.use(morgan("dev"));
+}
+
+if (process.env["NODE_ENV"] === "production") {
+  app.use(
+    rateLimit({
+      windowMs: 5 * 60 * 1_000,
+      max: 100,
+      standardHeaders: false,
+      legacyHeaders: false,
+    })
+  );
 }
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+// secure middleware
+app.use(helmet());
+app.disable("x-powered-by");
 
 //Routes
 routes(app);

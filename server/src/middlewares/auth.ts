@@ -2,16 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { UnauthenticatedError } from "@errors/index";
 import { verifyJwt } from "@utils/verifyJwt";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        userID: string;
-      };
-    }
-  }
-}
-
 export const auth = (req: Request, res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer"))
