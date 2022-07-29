@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { BadRequest, UnauthenticatedError } from "@errors/index";
 import User from "@models/User.model";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import { generateJwt, comparePassword } from "@utils/index";
 
 interface IRequest {
   email: string;
@@ -25,18 +24,12 @@ export const loginUser = async (req: Request, res: Response) => {
     throw new BadRequest("User isn't exists!");
   }
 
-  const isPasswordMatch = await bcrypt.compare(password, user.password);
+  const isPasswordMatch = await comparePassword(user.password, password);
   if (!isPasswordMatch) {
     throw new UnauthenticatedError("Invalid Credentials");
   }
 
-  const token = jwt.sign(
-    { userID: user._id },
-    process.env["JWT_SECRET"] as string,
-    {
-      expiresIn: process.env["JWT_LIFETIME"],
-    }
-  );
+  const token = generateJwt(user._id);
 
   return res.status(StatusCodes.OK).json({
     username: user.username,
@@ -58,13 +51,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
   const user = await User.create(req.body);
   //generate jwt token
-  const token = jwt.sign(
-    { userID: user._id },
-    process.env["JWT_SECRET"] as string,
-    {
-      expiresIn: process.env["JWT_LIFETIME"],
-    }
-  );
+  const token = generateJwt(user._id);
 
   return res.status(StatusCodes.OK).json({
     username: user.email,
