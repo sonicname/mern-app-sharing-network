@@ -1,4 +1,4 @@
-import { IGlobalAction, Action } from "./globalAction";
+import { Action } from "./globalAction";
 
 import {
   IGlobalState,
@@ -6,7 +6,5 @@ import {
   useGlobalContext,
 } from "./globalContext";
 
-import globalReducers from "./globalReducers";
-
-export { useGlobalContext, Action, GlobalProvider, globalReducers };
-export type { IGlobalState, IGlobalAction };
+export { useGlobalContext, Action, GlobalProvider };
+export type { IGlobalState };
