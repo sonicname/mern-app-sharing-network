@@ -1,22 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { UnauthenticatedError } from "@errors/index";
-import jwt, { CustomJWTPayload } from "jsonwebtoken";
-
-declare module "jsonwebtoken" {
-  export interface CustomJWTPayload extends jwt.JwtPayload {
-    userID: string;
-  }
-}
-
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        userID: string;
-      };
-    }
-  }
-}
+import { verifyJwt } from "@utils/verifyJwt";
 
 export const auth = (req: Request, res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
@@ -26,10 +10,7 @@ export const auth = (req: Request, res: Response, next: NextFunction): void => {
   const token = authHeader.split(" ")[1];
 
   try {
-    const payload = <CustomJWTPayload>(
-      (<unknown>jwt.sign(token, process.env["JWT_SECRET"] as string))
-    );
-
+    const payload = verifyJwt(token); // verify jwt
     req.user = {
       userID: payload.userID,
     };

@@ -2,17 +2,8 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { BadRequest, UnauthenticatedError } from "@errors/index";
 import User from "@models/User.model";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-
-interface IRequest {
-  email: string;
-  password: string;
-}
-
-interface IExtentRequestBody extends IRequest {
-  username: string;
-}
+import { generateJwt, comparePassword } from "@utils/index";
+import { IExtentRequestBody, IRequest } from "@interfaces/index";
 
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body as IRequest;
@@ -25,18 +16,12 @@ export const loginUser = async (req: Request, res: Response) => {
     throw new BadRequest("User isn't exists!");
   }
 
-  const isPasswordMatch = await bcrypt.compare(password, user.password);
+  const isPasswordMatch = await comparePassword(user.password, password);
   if (!isPasswordMatch) {
     throw new UnauthenticatedError("Invalid Credentials");
   }
 
-  const token = jwt.sign(
-    { userID: user._id },
-    process.env["JWT_SECRET"] as string,
-    {
-      expiresIn: process.env["JWT_LIFETIME"],
-    }
-  );
+  const token = generateJwt(user._id);
 
   return res.status(StatusCodes.OK).json({
     username: user.username,
@@ -58,13 +43,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
   const user = await User.create(req.body);
   //generate jwt token
-  const token = jwt.sign(
-    { userID: user._id },
-    process.env["JWT_SECRET"] as string,
-    {
-      expiresIn: process.env["JWT_LIFETIME"],
-    }
-  );
+  const token = generateJwt(user._id);
 
   return res.status(StatusCodes.OK).json({
     username: user.email,
@@ -73,4 +52,29 @@ export const registerUser = async (req: Request, res: Response) => {
   });
 };
 
-export const updateUser = async (req: Request, res: Response) => {};
+export const updateUser = async (req: Request, res: Response) => {
+  const { email, password, username } = req.body as IExtentRequestBody;
+  if (!email || !password || !username) {
+    throw new BadRequest("Please provide all email, password, username");
+  }
+
+  const user = await User.findOne({ _id: req.user?.userID }).select(
+    "+password"
+  );
+
+  if (user) {
+    user.email = email;
+    user.username = username;
+    user.password = password;
+  } else {
+    throw new UnauthenticatedError("Invalid Credentials");
+  }
+
+  await user.save();
+  const token = generateJwt(user._id);
+  return res.status(StatusCodes.OK).json({
+    email: user.email,
+    username: user.username,
+    token,
+  });
+};

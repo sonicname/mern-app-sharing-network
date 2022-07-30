@@ -1,11 +1,8 @@
-import express from "express";
-import {
-  loginUser,
-  registerUser,
-  updateUser,
-} from "@controller/auth.controller";
+import { Router } from "express";
+const authRoute = Router();
+
+import { loginUser, registerUser, updateUser } from "@controller/index";
 import { auth } from "@middlewares/auth";
-const authRoute = express.Router();
 
 authRoute.post("/login", loginUser);
 authRoute.post("/register", registerUser);

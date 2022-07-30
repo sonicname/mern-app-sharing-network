@@ -1,11 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { CustomError } from "@errors/index";
 import { StatusCodes } from "http-status-codes";
-
-interface IError {
-  statusCode: number;
-  message: string;
-}
+import { IError } from "@interfaces/index";
 
 export const errorHandle = (
   error: any,
@@ -13,6 +8,7 @@ export const errorHandle = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log(error);
   const defaultError: IError = {
     message: error.message,
     statusCode: error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
