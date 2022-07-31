@@ -57,10 +57,9 @@ app.use(notFound);
 
 const start = async (): Promise<void> => {
   try {
+    checkPortAndDb();
     const PORT = process.env["PORT"];
     const URI_DB = process.env["MONGODB_URI"];
-    checkPortAndDb(PORT, URI_DB);
-
     await connectMongo(URI_DB as string);
     app.listen(PORT, () => {
       console.log(`App listening on port ${PORT}!`);

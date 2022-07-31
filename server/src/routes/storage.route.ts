@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { auth } from "@middlewares/auth";
 import { upload } from "@controller/index";
-const uploadRoute = Router();
+const storageRoute = Router();
 
-uploadRoute.post("/", auth, upload);
+storageRoute.post("/upload", auth, upload);
 
-export default uploadRoute;
+export default storageRoute;
