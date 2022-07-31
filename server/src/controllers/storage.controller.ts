@@ -1,23 +1,26 @@
+import axios from "axios";
+import FormData from "form-data";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import FormData from "form-data";
-import axios from "axios";
-import File from "@models/File.model";
 
+import File from "@models/File.model";
+import { BadRequest } from "@errors/index";
 import { IAttachment, IRequestFiles } from "@interfaces/index";
 
 export const upload = async (req: Request, res: Response) => {
-  const files = req.files as unknown as IRequestFiles;
+  if (!req.files) throw new BadRequest("File upload is not provided!");
+  const { attachments } = req.files as unknown as IRequestFiles;
+  if (!attachments)
+    throw new BadRequest("File upload form name must be attachments");
   const discordWebhook = process.env["DISCORD_STORAGE"] as string;
   const formData = new FormData();
 
-  if (files.attachments.length > 1) {
-    files.attachments.forEach((file, index) => {
+  if (Array.isArray(attachments)) {
+    attachments.forEach((file, index) => {
       formData.append(`files[${index}]`, file.data, file.name);
     });
   } else {
-    // @ts-ignore
-    formData.append("file", files.attachments.data, files.attachments.name);
+    formData.append("file", attachments.data, attachments.name);
   }
 
   const { data }: { data: { attachments: IAttachment[] } } = await axios.post(

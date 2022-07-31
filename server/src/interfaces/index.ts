@@ -37,7 +37,7 @@ export interface IFile {
 }
 
 export interface IRequestFiles {
-  attachments: IFile[];
+  attachments: IFile[] | IFile;
 }
 
 export interface IAttachment {

@@ -4,6 +4,6 @@ import {
   registerUser,
 } from "@controller/auth.controller";
 
-import { upload } from "@controller/upload.controller";
+import { upload } from "@controller/storage.controller";
 
 export { loginUser, updateUser, registerUser, upload };
