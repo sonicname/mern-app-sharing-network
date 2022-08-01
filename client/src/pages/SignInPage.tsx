@@ -7,8 +7,10 @@ import { FieldAuth } from "../components/form";
 import { Button } from "../components";
 import { NavLink } from "react-router-dom";
 import { IGlobalState, useGlobalContext } from "../contexts/global";
+import { IAuthState, useAuthContext } from "../contexts/auth";
 
 const SignInPage = () => {
+  const { signIn } = useAuthContext() as IAuthState;
   const { toggleShowPass, showPass } = useGlobalContext() as IGlobalState;
   const {
     control,
@@ -31,7 +33,9 @@ const SignInPage = () => {
           </p>
 
           <form
-            onSubmit={handleSubmit((values) => console.log(values))}
+            onSubmit={handleSubmit((values) =>
+              signIn({ password: values.password, email: values.email })
+            )}
             className="mt-5 flex flex-col gap-y-5"
           >
             <FieldAuth

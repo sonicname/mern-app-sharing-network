@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { auth } from "@middlewares/auth";
-import { upload } from "@controller/index";
 const storageRoute = Router();
 
-storageRoute.post("/upload", auth, upload);
+import { auth } from "@middlewares/auth";
+import { uploadFile } from "@controller/index";
+
+storageRoute.post("/upload", auth, uploadFile);
 
 export default storageRoute;

@@ -1,14 +1,23 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Container } from "./index";
 import classNames from "classnames";
+import { Container } from "./index";
 import { Button } from "../index";
-import { NavHamburger, NavLinkItem, NavSearch } from "../navbar";
+import {
+  NavHamburger,
+  NavLinkItem,
+  NavSearch,
+  NavSwitchDarkMode,
+} from "../navbar";
 import { IGlobalState, useGlobalContext } from "../../contexts/global";
-import NavSwitchDarkMode from "../navbar/NavSwitchDarkMode";
+import { IAuthState, useAuthContext } from "../../contexts/auth";
+import { Dropdown, DropDownItem } from "../dropdown";
+import { IconUser } from "../icons";
+import IconLogout from "../icons/IconLogout";
 
 const Header = () => {
   const navigate = useNavigate();
   const { showMenu, changeShowMenu } = useGlobalContext() as IGlobalState;
+  const { username, logout } = useAuthContext() as IAuthState;
   return (
     <header className="w-full dark:bg-darkbg">
       <Container isFluid>
@@ -34,9 +43,21 @@ const Header = () => {
             <NavSwitchDarkMode />
             <NavLinkItem to={"/gallery"}>Gallery</NavLinkItem>
             <NavLinkItem to={"/storage"}>Storage</NavLinkItem>
-            <Button primary onClick={() => navigate("/signin")}>
-              Get Started
-            </Button>
+            {username ? (
+              <Dropdown title={username}>
+                <DropDownItem onClick={() => navigate(`/profile/${username}`)}>
+                  <IconUser className="w-4 h-4" /> Profile
+                </DropDownItem>
+                <DropDownItem onClick={logout}>
+                  <IconLogout className="w-4 h-4" />
+                  Logout
+                </DropDownItem>
+              </Dropdown>
+            ) : (
+              <Button primary onClick={() => navigate("/signin")}>
+                Get Started
+              </Button>
+            )}
           </div>
         </div>
       </Container>
