@@ -73,7 +73,7 @@ const SignUpPage = () => {
               </NavLink>
             </p>
 
-            <Button isLoading={isSubmitting} primary onClick={() => {}}>
+            <Button type={"submit"} isLoading={isSubmitting} primary>
               Sign Up
             </Button>
           </form>

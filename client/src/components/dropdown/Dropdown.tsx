@@ -18,13 +18,14 @@ const Dropdown = ({ className, title, children }: IDropDownProps) => {
   return (
     <div
       className={classNames(
-        "flex items-center gap-x-1 text-text1 dark:text-text4 font-medium relative cursor-pointer select-none p-4 lg:p-0",
+        "flex items-center gap-x-1 text-text2 dark:text-text4 font-medium relative cursor-pointer select-none p-4 lg:p-0",
         className
       )}
       onClick={() => setShow(!show)}
       ref={ref}
     >
-      {title} <IconDropDown className="h-4 w-4" />
+      <span>{title}</span>
+      <IconDropDown className="h-4 w-4" />
       <div
         className={classNames(
           "absolute top-full right-0 w-full duration-150 bg-white dark:bg-darkSecondary lg:shadow-md lg:w-32 rounded-md mt-2 pl-4 lg:pl-0",

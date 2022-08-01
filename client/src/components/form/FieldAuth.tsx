@@ -16,6 +16,7 @@ interface IFieldAuth {
   isPasswordField?: boolean;
   onClickIconPass?: () => void;
   showPass?: boolean;
+  defaultValue?: string;
 }
 
 const FieldAuth = ({
@@ -29,6 +30,7 @@ const FieldAuth = ({
   isPasswordField = type === "password",
   onClickIconPass = () => {},
   showPass,
+  defaultValue = "",
 }: IFieldAuth) => {
   return (
     <div className="flex flex-col gap-y-1 h-full">
@@ -38,6 +40,7 @@ const FieldAuth = ({
           name={name}
           placeholder={placeholder}
           control={control}
+          defaultValue={defaultValue}
         />
         {hasIcon && <LabelAuth htmlFor={name}>{icon ? icon : name}</LabelAuth>}
         {isPasswordField && (
