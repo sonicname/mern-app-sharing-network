@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
+import classNames from "classnames";
 
 interface INavLinkProps {
   to: string;
@@ -9,11 +10,15 @@ interface INavLinkProps {
 
 const NavLinkItem = ({ to, children, className }: INavLinkProps) => {
   return (
-    <div className="flex w-full p-4 items-center gap-x-1 font-medium text-md text-text2 hover:opacity-75 dark:text-text4 lg:p-0 lg:w-auto">
-      <NavLink className={className} to={to}>
-        {children}
-      </NavLink>
-    </div>
+    <NavLink
+      className={classNames(
+        "flex items-center w-full p-4 items-center gap-x-1 font-medium text-md text-text2 dark:text-text4 lg:p-0 lg:w-auto relative nav",
+        className
+      )}
+      to={to}
+    >
+      {children}
+    </NavLink>
   );
 };
 

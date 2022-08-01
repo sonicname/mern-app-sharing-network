@@ -7,7 +7,7 @@ import File from "@models/File.model";
 import { BadRequest } from "@errors/index";
 import { IAttachment, IRequestFiles } from "@interfaces/index";
 
-export const upload = async (req: Request, res: Response) => {
+export const uploadFile = async (req: Request, res: Response) => {
   if (!req.files) throw new BadRequest("File upload is not provided!");
   const { attachments } = req.files as unknown as IRequestFiles;
   if (!attachments)
