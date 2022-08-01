@@ -7,13 +7,20 @@ interface InputProps {
   name: string;
   placeholder?: string;
   control: Control;
+  defaultValue?: string;
 }
 
-const Input = ({ name, type, placeholder, control }: InputProps) => {
+const Input = ({
+  name,
+  type,
+  placeholder,
+  control,
+  defaultValue = "",
+}: InputProps) => {
   const { field } = useController({
     control,
     name,
-    defaultValue: "",
+    defaultValue,
   });
   return (
     <input
@@ -23,6 +30,7 @@ const Input = ({ name, type, placeholder, control }: InputProps) => {
       type={type}
       id={name}
       placeholder={placeholder}
+      defaultValue={defaultValue}
       {...field}
     />
   );

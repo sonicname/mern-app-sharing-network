@@ -7,7 +7,11 @@ import {
 } from "react";
 import { authReducers } from "./authReducers";
 import { Action } from "./authAction";
-import { IAuthInfoBase, IUserToken } from "../../interfaces/interfaces";
+import {
+  IAuthInfoBase,
+  IExtentAuthInfo,
+  IUserToken,
+} from "../../interfaces/interfaces";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +22,7 @@ export interface IAuthState {
   email: string | null;
   loadingSubmit: boolean;
   signIn: (p: IAuthInfoBase) => Promise<void>;
+  updateUser: (p: IExtentAuthInfo) => Promise<void>;
   logout: () => void;
 }
 
@@ -33,6 +38,7 @@ const initialState: IAuthState = {
   email,
   loadingSubmit: false,
   signIn: async () => {},
+  updateUser: async () => {},
   logout: () => {},
 };
 
@@ -94,6 +100,43 @@ export const AuthProvider = (props: { children: ReactNode }) => {
     }
   };
 
+  const updateUser = async ({ username, email, password }: IExtentAuthInfo) => {
+    dispatch({ type: Action.SETUP_USER_BEGIN });
+    try {
+      const { data } = await axios.patch<IUserToken>(
+        "/api/v1/auth/update",
+        {
+          username,
+          email,
+          password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authState.token}`,
+          },
+        }
+      );
+
+      dispatch({
+        type: Action.SETUP_USER_SUCCESS,
+        payload: {
+          username: data.username,
+          email: data.email,
+          token: data.token,
+        },
+      });
+
+      addAllAuthInfo(data);
+      toast.success("Update profile success!");
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        // @ts-ignore
+        toast.error(e.response.data.message);
+      }
+      dispatch({ type: Action.SETUP_USER_ERROR });
+    }
+  };
+
   const logout = () => {
     dispatch({
       type: Action.SETUP_USER_SUCCESS,
@@ -110,6 +153,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
   const values = {
     ...authState,
     signIn,
+    updateUser,
     logout,
   };
 

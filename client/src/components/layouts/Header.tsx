@@ -44,15 +44,19 @@ const Header = () => {
             <NavLinkItem to={"/gallery"}>Gallery</NavLinkItem>
             <NavLinkItem to={"/storage"}>Storage</NavLinkItem>
             {username ? (
-              <Dropdown title={username}>
-                <DropDownItem onClick={() => navigate(`/profile/${username}`)}>
-                  <IconUser className="w-4 h-4" /> Profile
-                </DropDownItem>
-                <DropDownItem onClick={logout}>
-                  <IconLogout className="w-4 h-4" />
-                  Logout
-                </DropDownItem>
-              </Dropdown>
+              <>
+                <NavLinkItem to={"/upload"}>Upload</NavLinkItem>
+                <Dropdown title={username}>
+                  <DropDownItem onClick={() => navigate(`/profile`)}>
+                    <IconUser className="w-4 h-4" />
+                    <span>Profile</span>
+                  </DropDownItem>
+                  <DropDownItem onClick={logout}>
+                    <IconLogout className="w-4 h-4" />
+                    <span>Logout</span>
+                  </DropDownItem>
+                </Dropdown>
+              </>
             ) : (
               <Button primary onClick={() => navigate("/signin")}>
                 Get Started

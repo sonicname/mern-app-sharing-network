@@ -4,7 +4,7 @@ import Loading from "./Loading";
 
 export interface IButtonProps {
   children: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
   isLoading?: boolean;
   primary?: boolean;
@@ -13,7 +13,7 @@ export interface IButtonProps {
 
 const Button = ({
   children,
-  onClick,
+  onClick = () => {},
   className,
   isLoading,
   primary,

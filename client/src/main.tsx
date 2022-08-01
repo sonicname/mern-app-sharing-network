@@ -6,13 +6,19 @@ import { StrictMode } from "react";
 
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
+
 import Loading from "./components/Loading";
 import { GlobalProvider } from "./contexts/global";
 import { AuthProvider } from "./contexts/auth";
+import ProtectedPage from "./pages/ProtectedPage";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));
 const SignInPage = lazy(() => import("./pages/SignInPage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const GalleryPage = lazy(() => import("./pages/GalleryPage"));
+const StoragePage = lazy(() => import("./pages/StoragePage"));
+const UploadPage = lazy(() => import("./pages/UploadPage"));
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
@@ -31,6 +37,24 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                 <Route path="/" element={<HomePage />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/signin" element={<SignInPage />} />
+                <Route path="/storage" element={<StoragePage />} />
+                <Route path="/gallery" element={<GalleryPage />} />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedPage>
+                      <ProfilePage />
+                    </ProtectedPage>
+                  }
+                />
+                <Route
+                  path="/upload"
+                  element={
+                    <ProtectedPage>
+                      <UploadPage />
+                    </ProtectedPage>
+                  }
+                />
               </Routes>
             </AuthProvider>
           </BrowserRouter>
