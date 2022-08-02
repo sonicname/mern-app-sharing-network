@@ -16,7 +16,7 @@ export default function globalReducers(
     case Action.SET_SHOW: {
       return {
         ...state,
-        showMenu: !state.showMenu,
+        showMenu: action.payload,
       };
     }
 

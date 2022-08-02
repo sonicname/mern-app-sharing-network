@@ -13,7 +13,7 @@ export interface IGlobalState {
   showMenu: boolean;
   showPass: boolean;
   switchDarkMode: () => void;
-  changeShowMenu: () => void;
+  changeShowMenu: (v: boolean) => void;
   toggleShowPass: () => void;
 }
 
@@ -56,8 +56,8 @@ export const GlobalProvider = (props: { children: ReactNode }) => {
     dispatch({ type: Action.CHANGE_DARKMODE });
   };
 
-  const changeShowMenu = () => {
-    dispatch({ type: Action.SET_SHOW });
+  const changeShowMenu = (value: boolean) => {
+    dispatch({ type: Action.SET_SHOW, payload: value });
   };
 
   const toggleShowPass = () => {

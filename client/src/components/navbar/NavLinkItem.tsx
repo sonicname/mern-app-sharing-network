@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
+import { IGlobalState, useGlobalContext } from "../../contexts/global";
 
 interface INavLinkProps {
   to: string;
@@ -9,6 +10,7 @@ interface INavLinkProps {
 }
 
 const NavLinkItem = ({ to, children, className }: INavLinkProps) => {
+  const { changeShowMenu } = useGlobalContext() as IGlobalState;
   return (
     <NavLink
       className={classNames(
@@ -16,6 +18,7 @@ const NavLinkItem = ({ to, children, className }: INavLinkProps) => {
         className
       )}
       to={to}
+      onClick={() => changeShowMenu(false)}
     >
       {children}
     </NavLink>

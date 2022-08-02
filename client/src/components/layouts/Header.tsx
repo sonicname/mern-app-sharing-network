@@ -11,8 +11,7 @@ import {
 import { IGlobalState, useGlobalContext } from "../../contexts/global";
 import { IAuthState, useAuthContext } from "../../contexts/auth";
 import { Dropdown, DropDownItem } from "../dropdown";
-import { IconUser } from "../icons";
-import IconLogout from "../icons/IconLogout";
+import { IconUser, IconLogout } from "../icons";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -29,15 +28,18 @@ const Header = () => {
               </p>
             </NavLink>
 
-            <NavSearch placeholder={"What...."} />
-            <NavHamburger isActive={showMenu} onClick={changeShowMenu} />
+            <NavSearch placeholder={"Hmm... Cosplay Images"} />
+            <NavHamburger
+              isActive={showMenu}
+              onClick={() => changeShowMenu(!showMenu)}
+            />
           </div>
 
           <div
             className={classNames(
-              "shadow-lg bg-white dark:bg-darkSecondary scale-0 invisible rounded-md fixed inset-0 top-[10%] flex flex-col p-4 right-0 z-20 duration-200",
-              "lg:flex-row lg:gap-x-8 lg:items-center lg:static lg:rounded-none lg:shadow-none lg:opacity-100 lg:visible lg:bg-transparent lg:dark:bg-transparent lg:p-0 lg:scale-100",
-              showMenu && "!scale-100 !visible"
+              "bg-white dark:bg-darkSecondary rounded-md fixed inset-0 top-[10%] flex flex-col z-20 p-4 duration-200",
+              "lg:flex-row lg:gap-x-8 lg:items-center lg:static lg:bg-transparent lg:dark:bg-transparent lg:p-0 lg:!scale-100",
+              showMenu ? "scale-100" : "scale-0"
             )}
           >
             <NavSwitchDarkMode />

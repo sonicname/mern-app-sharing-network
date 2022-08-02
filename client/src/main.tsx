@@ -59,7 +59,13 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             </AuthProvider>
           </BrowserRouter>
         </Suspense>
-        <ToastContainer pauseOnHover={false} newestOnTop={true} />
+        <ToastContainer
+          pauseOnHover={false}
+          newestOnTop={true}
+          limit={4}
+          draggable={true}
+          draggablePercent={60}
+        />
       </GlobalProvider>
     </>
   </StrictMode>
