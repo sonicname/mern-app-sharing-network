@@ -7,9 +7,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaSignUp } from "../validation/schema";
 import { NavLink } from "react-router-dom";
 import { IGlobalState, useGlobalContext } from "../contexts/global";
+import { IAuthState, useAuthContext } from "../contexts/auth";
 
 const SignUpPage = () => {
   const { showPass, toggleShowPass } = useGlobalContext() as IGlobalState;
+  const { signUp } = useAuthContext() as IAuthState;
   const {
     control,
     handleSubmit,
@@ -30,7 +32,13 @@ const SignUpPage = () => {
           </p>
 
           <form
-            onSubmit={handleSubmit((values) => console.log(values))}
+            onSubmit={handleSubmit((values) =>
+              signUp({
+                username: values.username,
+                email: values.email,
+                password: values.password,
+              })
+            )}
             className="mt-5 flex flex-col gap-y-5"
           >
             <FieldAuth

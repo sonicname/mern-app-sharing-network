@@ -8,14 +8,13 @@ export const errorHandle = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(error);
   const defaultError: IError = {
     message: error.message,
     statusCode: error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
   };
 
   if (error.code === 11000) {
-    defaultError.message = "User is already exists!";
+    defaultError.message = "Email or username is already exists!";
     defaultError.statusCode = StatusCodes.BAD_REQUEST;
   }
 

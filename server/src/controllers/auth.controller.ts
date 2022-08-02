@@ -36,17 +36,12 @@ export const registerUser = async (req: Request, res: Response) => {
     throw new BadRequest("Please provide all username, email, password!");
   }
 
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    throw new BadRequest("Email is already in used!");
-  }
-
   const user = await User.create(req.body);
   //generate jwt token
   const token = generateJwt(user._id);
 
   return res.status(StatusCodes.OK).json({
-    username: user.email,
+    username: user.username,
     email: user.email,
     token,
   });

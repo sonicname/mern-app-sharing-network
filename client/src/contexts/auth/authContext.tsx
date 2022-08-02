@@ -22,6 +22,7 @@ export interface IAuthState {
   email: string | null;
   loadingSubmit: boolean;
   signIn: (p: IAuthInfoBase) => Promise<void>;
+  signUp: (p: IExtentAuthInfo) => Promise<void>;
   updateUser: (p: IExtentAuthInfo) => Promise<void>;
   logout: () => void;
 }
@@ -38,6 +39,7 @@ const initialState: IAuthState = {
   email,
   loadingSubmit: false,
   signIn: async () => {},
+  signUp: async () => {},
   updateUser: async () => {},
   logout: () => {},
 };
@@ -137,6 +139,35 @@ export const AuthProvider = (props: { children: ReactNode }) => {
     }
   };
 
+  const signUp = async ({ email, password, username }: IExtentAuthInfo) => {
+    dispatch({ type: Action.SETUP_USER_BEGIN });
+    try {
+      const { data } = await axios.post<IUserToken>("/api/v1/auth/register", {
+        email,
+        password,
+        username,
+      });
+
+      dispatch({
+        type: Action.SETUP_USER_SUCCESS,
+        payload: {
+          username: data.username,
+          email: data.email,
+          token: data.token,
+        },
+      });
+
+      addAllAuthInfo(data);
+      toast.success("Sign in success!");
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        // @ts-ignore
+        toast.error(e.response.data.message);
+      }
+      dispatch({ type: Action.SETUP_USER_ERROR });
+    }
+  };
+
   const logout = () => {
     dispatch({
       type: Action.SETUP_USER_SUCCESS,
@@ -153,6 +184,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
   const values = {
     ...authState,
     signIn,
+    signUp,
     updateUser,
     logout,
   };
