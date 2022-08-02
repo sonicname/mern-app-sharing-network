@@ -5,8 +5,8 @@ import classNames from "classnames";
 interface InputProps {
   type: HTMLInputTypeAttribute;
   name: string;
-  placeholder?: string;
   control: Control;
+  placeholder?: string;
   defaultValue?: string;
 }
 
@@ -30,7 +30,6 @@ const Input = ({
       type={type}
       id={name}
       placeholder={placeholder}
-      defaultValue={defaultValue}
       {...field}
     />
   );
