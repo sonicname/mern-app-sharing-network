@@ -1,15 +1,6 @@
-import { ReactNode } from "react";
 import classNames from "classnames";
 import Loading from "./Loading";
-
-export interface IButtonProps {
-  children: ReactNode;
-  onClick?: () => void;
-  className?: string;
-  isLoading?: boolean;
-  primary?: boolean;
-  type?: "button" | "submit" | "reset";
-}
+import { IButtonProps } from "../interfaces";
 
 const Button = ({
   children,

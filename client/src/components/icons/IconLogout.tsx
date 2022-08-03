@@ -1,4 +1,4 @@
-import { IconProps } from "./typesIcon";
+import { IconProps } from "../../interfaces";
 
 const IconLogout = ({ className = "h-6 w-6" }: IconProps) => {
   return (

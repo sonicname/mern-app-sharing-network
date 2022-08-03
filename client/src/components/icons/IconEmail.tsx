@@ -1,5 +1,4 @@
-import React from "react";
-import { IconProps } from "./typesIcon";
+import { IconProps } from "../../interfaces";
 
 const IconEmail = ({ className = "h-6 w-6" }: IconProps) => {
   return (

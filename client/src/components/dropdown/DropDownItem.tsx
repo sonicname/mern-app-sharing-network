@@ -1,11 +1,5 @@
-import { ReactNode } from "react";
 import classNames from "classnames";
-
-interface IDropDownItemProps {
-  className?: string;
-  children: ReactNode;
-  onClick: () => void;
-}
+import { IDropDownItemProps } from "../../interfaces";
 
 const DropDownItem = ({ children, className, onClick }: IDropDownItemProps) => {
   return (

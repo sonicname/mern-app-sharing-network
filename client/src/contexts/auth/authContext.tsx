@@ -7,11 +7,7 @@ import {
 } from "react";
 import { authReducers } from "./authReducers";
 import { Action } from "./authAction";
-import {
-  IAuthInfoBase,
-  IExtentAuthInfo,
-  IUserToken,
-} from "../../interfaces/interfaces";
+import { IAuthInfoBase, IExtentAuthInfo, IUserToken } from "../../interfaces";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";

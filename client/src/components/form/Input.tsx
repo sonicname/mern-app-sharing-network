@@ -1,14 +1,6 @@
-import React, { HTMLInputTypeAttribute } from "react";
-import { Control, useController } from "react-hook-form";
+import { useController } from "react-hook-form";
 import classNames from "classnames";
-
-interface InputProps {
-  type: HTMLInputTypeAttribute;
-  name: string;
-  control: Control;
-  placeholder?: string;
-  defaultValue?: string;
-}
+import { InputProps } from "../../interfaces";
 
 const Input = ({
   name,

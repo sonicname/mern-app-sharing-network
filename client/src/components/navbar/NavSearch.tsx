@@ -1,7 +1,4 @@
-interface INavSearchProps {
-  className?: string;
-  placeholder?: string;
-}
+import { INavSearchProps } from "../../interfaces";
 
 const NavSearch = ({ className, placeholder }: INavSearchProps) => {
   return (
