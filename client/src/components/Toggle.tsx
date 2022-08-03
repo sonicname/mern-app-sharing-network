@@ -1,9 +1,5 @@
 import classNames from "classnames";
-
-interface IToggleProps {
-  on: boolean;
-  setOn: () => void;
-}
+import { IToggleProps } from "../interfaces";
 
 const Toggle = ({ on, setOn }: IToggleProps) => {
   return (

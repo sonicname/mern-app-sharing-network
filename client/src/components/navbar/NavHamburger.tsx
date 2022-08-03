@@ -1,9 +1,5 @@
 import classNames from "classnames";
-
-interface INavHamburger {
-  isActive: boolean;
-  onClick: () => void;
-}
+import { INavHamburger } from "../../interfaces";
 
 const NavHamburger = ({ isActive, onClick }: INavHamburger) => {
   return (

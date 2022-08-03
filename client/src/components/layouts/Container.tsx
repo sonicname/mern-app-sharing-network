@@ -1,11 +1,5 @@
-import { ReactNode } from "react";
 import classNames from "classnames";
-
-interface IContainerProps {
-  children: ReactNode;
-  isFluid?: boolean;
-  className?: string;
-}
+import { IContainerProps } from "../../interfaces";
 
 const Container = ({ children, isFluid, className }: IContainerProps) => {
   return (

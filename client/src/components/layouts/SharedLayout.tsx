@@ -1,9 +1,5 @@
-import { ReactNode } from "react";
 import { Header } from "./index";
-
-interface ISharedLayoutProps {
-  children: ReactNode;
-}
+import { ISharedLayoutProps } from "../../interfaces";
 
 const SharedLayout = ({ children }: ISharedLayoutProps) => {
   return (

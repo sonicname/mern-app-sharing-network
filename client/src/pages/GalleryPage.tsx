@@ -1,4 +1,3 @@
-import React from "react";
 import { SharedLayout } from "../components/layouts";
 
 const GalleryPage = () => {

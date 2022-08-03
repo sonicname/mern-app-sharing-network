@@ -1,13 +1,7 @@
-import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 import { IGlobalState, useGlobalContext } from "../../contexts/global";
-
-interface INavLinkProps {
-  to: string;
-  children: ReactNode;
-  className?: string;
-}
+import { INavLinkProps } from "../../interfaces";
 
 const NavLinkItem = ({ to, children, className }: INavLinkProps) => {
   const { changeShowMenu } = useGlobalContext() as IGlobalState;

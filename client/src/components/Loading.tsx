@@ -1,10 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-
-export interface ILoadingProps {
-  className?: string;
-  padding?: 1 | 2 | 3 | 4;
-}
+import { ILoadingProps } from "../interfaces";
 
 const Loading = ({ className, padding = 2 }: ILoadingProps) => {
   return (

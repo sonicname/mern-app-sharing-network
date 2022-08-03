@@ -1,13 +1,8 @@
 import classNames from "classnames";
-import { ReactNode, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useOnClickOutSide from "../../hooks/useOnClickOutSide";
 import { IconDropDown } from "../icons";
-
-interface IDropDownProps {
-  className?: string;
-  title: string;
-  children: ReactNode;
-}
+import { IDropDownProps } from "../../interfaces";
 
 const Dropdown = ({ className, title, children }: IDropDownProps) => {
   const [show, setShow] = useState(false);

@@ -1,22 +1,7 @@
-import { HTMLInputTypeAttribute } from "react";
 import Input from "./Input";
-import { Control } from "react-hook-form";
 import LabelAuth from "./LabelAuth";
 import { IconEyeClose, IconEyeOpen } from "../icons";
-
-interface IFieldAuth {
-  control: Control;
-  type: HTMLInputTypeAttribute;
-  name: string;
-  placeholder?: string;
-  icon?: JSX.Element;
-  error?: string;
-  hasIcon?: boolean;
-  isPasswordField?: boolean;
-  onClickIconPass?: () => void;
-  showPass?: boolean;
-  defaultValue?: string;
-}
+import { IFieldAuth } from "../../interfaces";
 
 const FieldAuth = ({
   control,
