@@ -1,5 +1,4 @@
-import React from "react";
-import { SharedLayout } from "../components/layouts";
+import { SharedLayout } from "../components";
 
 const StoragePage = () => {
   return (

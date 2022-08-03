@@ -1,4 +1,4 @@
-import { SharedLayout } from "../components/layouts";
+import { SharedLayout } from "../components";
 
 const GalleryPage = () => {
   return (

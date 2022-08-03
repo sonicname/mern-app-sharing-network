@@ -1,17 +1,19 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import classNames from "classnames";
-import { Container } from "./index";
-import { Button } from "../index";
+import { IGlobalState, useGlobalContext } from "../../contexts/global";
+import { IAuthState, useAuthContext } from "../../contexts/auth";
 import {
+  Button,
+  Container,
+  Dropdown,
+  DropDownItem,
+  IconLogout,
+  IconUser,
   NavHamburger,
   NavLinkItem,
   NavSearch,
   NavSwitchDarkMode,
-} from "../navbar";
-import { IGlobalState, useGlobalContext } from "../../contexts/global";
-import { IAuthState, useAuthContext } from "../../contexts/auth";
-import { Dropdown, DropDownItem } from "../dropdown";
-import { IconUser, IconLogout } from "../icons";
+} from "../index";
 
 const Header = () => {
   const navigate = useNavigate();

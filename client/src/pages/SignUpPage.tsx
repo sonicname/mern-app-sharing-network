@@ -1,7 +1,12 @@
-import { Container, SharedLayout } from "../components/layouts";
-import { FieldAuth } from "../components/form";
-import { IconEmail, IconLock, IconUser } from "../components/icons";
-import { Button } from "../components";
+import {
+  Button,
+  Container,
+  FieldAuth,
+  IconEmail,
+  IconLock,
+  IconUser,
+  SharedLayout,
+} from "../components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaSignUp } from "../validation/schema";
