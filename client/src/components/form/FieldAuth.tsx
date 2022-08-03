@@ -2,8 +2,7 @@ import { HTMLInputTypeAttribute } from "react";
 import Input from "./Input";
 import { Control } from "react-hook-form";
 import LabelAuth from "./LabelAuth";
-import IconEyeOpen from "../icons/IconEyeOpen";
-import IconEyeClose from "../icons/IconEyeClose";
+import { IconEyeClose, IconEyeOpen } from "../icons";
 
 interface IFieldAuth {
   control: Control;

@@ -1,4 +1,5 @@
 import { JwtPayload } from "jsonwebtoken";
+import { Types } from "mongoose";
 
 declare module "jsonwebtoken" {
   export interface CustomJWTPayload extends JwtPayload {
@@ -49,4 +50,12 @@ export interface IAttachment {
   width: number;
   height: number;
   content_type: string;
+}
+
+export interface IRequestDeleteMessage {
+  fileID: Types.ObjectId;
+}
+
+export interface IQueryPage {
+  page: string;
 }

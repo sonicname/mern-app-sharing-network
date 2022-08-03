@@ -1,6 +1,5 @@
-import React from "react";
 import { SharedLayout } from "../components/layouts";
-
+// TODO
 const UploadPage = () => {
   return (
     <SharedLayout>

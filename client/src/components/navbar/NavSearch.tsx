@@ -1,5 +1,3 @@
-import React from "react";
-
 interface INavSearchProps {
   className?: string;
   placeholder?: string;

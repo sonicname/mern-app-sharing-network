@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ReactNode, useRef, useState } from "react";
-import IconDropDown from "../icons/IconDropDown";
 import useOnClickOutSide from "../../hooks/useOnClickOutSide";
+import { IconDropDown } from "../icons";
 
 interface IDropDownProps {
   className?: string;
