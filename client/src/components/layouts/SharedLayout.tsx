@@ -1,5 +1,5 @@
-import { Header } from "./index";
 import { ISharedLayoutProps } from "../../interfaces";
+import { Header } from "../index";
 
 const SharedLayout = ({ children }: ISharedLayoutProps) => {
   return (

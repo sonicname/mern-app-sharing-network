@@ -1,10 +1,14 @@
-import { Container, SharedLayout } from "../components/layouts";
+import {
+  Button,
+  Container,
+  FieldAuth,
+  IconEmail,
+  IconLock,
+  SharedLayout,
+} from "../components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaLogin } from "../validation/schema";
-import { IconLock, IconEmail } from "../components/icons";
-import { FieldAuth } from "../components/form";
-import { Button } from "../components";
 import { Navigate, NavLink } from "react-router-dom";
 import { IGlobalState, useGlobalContext } from "../contexts/global";
 import { IAuthState, useAuthContext } from "../contexts/auth";
