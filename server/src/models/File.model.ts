@@ -7,20 +7,15 @@ const FileSchema = new Schema(
       required: [true, "File must have name!"],
       trim: true,
     },
-    url: {
-      type: String,
+    messageID: String,
+    fileProperty: {
+      size: Number,
+      width: Number,
+      height: Number,
     },
-    size: {
-      type: Number,
-    },
-    proxy_url: {
-      type: String,
-    },
-    width: {
-      type: Number,
-    },
-    height: {
-      type: Number,
+    sources: {
+      url: String,
+      proxy_url: String,
     },
     uploadBy: {
       type: Types.ObjectId,

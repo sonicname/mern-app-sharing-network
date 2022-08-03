@@ -5,7 +5,7 @@ import { IconLight, IconMoon } from "../icons";
 const NavSwitchDarkMode = () => {
   const { dark, switchDarkMode } = useGlobalContext() as IGlobalState;
   return (
-    <div className="flex items-center gap-x-3 relative p-4 lg:p-0">
+    <div className="flex items-center gap-x-3 relative p-3 lg:p-0">
       <Toggle on={dark} setOn={switchDarkMode} />
       {dark ? (
         <IconMoon className="h-5 w-5" />

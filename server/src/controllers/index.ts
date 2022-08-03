@@ -4,6 +4,17 @@ import {
   registerUser,
 } from "@controller/auth.controller";
 
-import { uploadFile } from "@controller/storage.controller";
+import {
+  uploadFile,
+  deleteFile,
+  getFiles,
+} from "@controller/storage.controller";
 
-export { loginUser, updateUser, registerUser, uploadFile };
+export {
+  loginUser,
+  updateUser,
+  registerUser,
+  uploadFile,
+  deleteFile,
+  getFiles,
+};

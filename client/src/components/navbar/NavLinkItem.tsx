@@ -14,7 +14,7 @@ const NavLinkItem = ({ to, children, className }: INavLinkProps) => {
   return (
     <NavLink
       className={classNames(
-        "flex items-center w-full p-4 items-center gap-x-1 font-medium text-md text-text2 dark:text-text4 lg:p-0 lg:w-auto relative select-none",
+        "flex items-center w-full p-3 lg:p-4 items-center gap-x-1 font-medium text-md text-text2 dark:text-text4 lg:p-0 lg:w-auto relative select-none",
         className
       )}
       to={to}

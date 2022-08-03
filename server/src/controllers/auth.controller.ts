@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { BadRequest, UnauthenticatedError } from "@errors/index";
+
 import User from "@models/User.model";
 import { generateJwt, comparePassword } from "@utils/index";
+import { BadRequest, UnauthenticatedError } from "@errors/index";
 import { IExtentRequestBody, IRequest } from "@interfaces/index";
 
 export const loginUser = async (req: Request, res: Response) => {
