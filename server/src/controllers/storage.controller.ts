@@ -3,7 +3,7 @@ import FormData from "form-data";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import File from "@models/File.model";
+import { File } from "@models/index";
 import { BadRequest, UnauthenticatedError } from "@errors/index";
 import {
   IAttachment,

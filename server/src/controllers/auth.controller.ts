@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import User from "@models/User.model";
+import { User } from "@models/index";
 import { generateJwt, comparePassword } from "@utils/index";
 import { BadRequest, UnauthenticatedError } from "@errors/index";
 import { IExtentRequestBody, IRequest } from "@interfaces/index";
