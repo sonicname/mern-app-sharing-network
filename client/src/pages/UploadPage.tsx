@@ -1,23 +1,23 @@
-import { Button, IconRemove, SharedLayout } from "../components";
+import { v4 } from "uuid";
 import ImageUploading, {
   ImageListType,
   ImageType,
 } from "react-images-uploading";
 import { useState } from "react";
+import { Pagination } from "swiper";
 import classNames from "classnames";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { v4 } from "uuid";
-import { Pagination } from "swiper";
+import { Button, IconRemove, SharedLayout } from "../components";
+import { IStorageState, useStorageContext } from "../contexts/storage";
 // TODO
 const UploadPage = () => {
+  const { uploadImage, uploadLoading } = useStorageContext() as IStorageState;
   const [images, setImages] = useState<ImageType[]>([]);
 
   const onChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
 
@@ -79,7 +79,14 @@ const UploadPage = () => {
           )}
         </ImageUploading>
         {images.length > 0 && (
-          <Button className="w-full" primary>
+          <Button
+            className="w-full"
+            isLoading={uploadLoading}
+            primary
+            onClick={() =>
+              uploadImage(images.map((image) => image.file as File))
+            }
+          >
             Upload
           </Button>
         )}
