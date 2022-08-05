@@ -9,3 +9,12 @@ html {
 body {
 	overflow-x: hidden;
 }
+
+.swiper-slide {
+	width: 400px;
+	height: auto;
+}
+
+.swiper {
+	height: 100%;
+}

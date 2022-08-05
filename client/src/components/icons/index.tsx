@@ -7,6 +7,9 @@ import IconLogout from "./IconLogout";
 import IconDropDown from "./IconDropDown";
 import IconEyeClose from "./IconEyeClose";
 import IconEyeOpen from "./IconEyeOpen";
+import IconImage from "./IconImage";
+import IconDocument from "./IconDocument";
+import IconRemove from "./IconRemove";
 
 export {
   IconMoon,
@@ -18,4 +21,7 @@ export {
   IconEyeClose,
   IconLogout,
   IconDropDown,
+  IconImage,
+  IconDocument,
+  IconRemove,
 };

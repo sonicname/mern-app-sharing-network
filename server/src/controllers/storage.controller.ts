@@ -7,6 +7,7 @@ import { File } from "@models/index";
 import { BadRequest, UnauthenticatedError } from "@errors/index";
 import {
   IAttachment,
+  IPostAttachment,
   IQueryPage,
   IRequestDeleteMessage,
   IRequestFiles,
@@ -45,10 +46,9 @@ export const uploadFile = async (req: Request, res: Response) => {
     formData.append("file", attachments.data, attachments.name);
   }
 
-  const { data }: { data: { attachments: IAttachment[]; id: string } } =
-    await axios.post(discordWebhook, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+  const { data }: IPostAttachment = await axios.post(discordWebhook, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 
   const messageID = data.id;
 

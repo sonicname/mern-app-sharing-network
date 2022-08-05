@@ -65,9 +65,15 @@ const start = async (): Promise<void> => {
       console.log(`App listening on port ${PORT}!`);
     });
   } catch (e) {
-    console.log(e);
     process.exit(1);
+    throw e;
   }
 };
 
-start();
+(async () => {
+  try {
+    await start();
+  } catch (e) {
+    console.log(e);
+  }
+})();

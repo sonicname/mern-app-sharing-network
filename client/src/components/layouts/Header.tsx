@@ -46,7 +46,6 @@ const Header = () => {
           >
             <NavSwitchDarkMode />
             <NavLinkItem to={"/gallery"}>Gallery</NavLinkItem>
-            <NavLinkItem to={"/storage"}>Storage</NavLinkItem>
             {username ? (
               <>
                 <NavLinkItem to={"/upload"}>Upload</NavLinkItem>

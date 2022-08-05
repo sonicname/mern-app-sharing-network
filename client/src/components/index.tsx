@@ -16,6 +16,9 @@ import {
   IconEyeOpen,
   IconLight,
   IconMoon,
+  IconImage,
+  IconDocument,
+  IconRemove,
 } from "./icons";
 import Container from "./layouts/Container";
 import Header from "./layouts/Header";
@@ -38,11 +41,14 @@ export {
   IconUser,
   IconMoon,
   IconEmail,
+  IconRemove,
   IconEyeOpen,
   IconLight,
+  IconImage,
   IconDropDown,
   IconEyeClose,
   IconLogout,
+  IconDocument,
   SharedLayout,
   Header,
   NavSearch,
