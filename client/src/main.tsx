@@ -6,6 +6,8 @@ import { StrictMode } from "react";
 
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
+import "swiper/css";
+import "swiper/css/pagination";
 
 import Loading from "./components/Loading";
 import { GlobalProvider } from "./contexts/global";
@@ -17,7 +19,6 @@ const SignUpPage = lazy(() => import("./pages/SignUpPage"));
 const SignInPage = lazy(() => import("./pages/SignInPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const GalleryPage = lazy(() => import("./pages/GalleryPage"));
-const StoragePage = lazy(() => import("./pages/StoragePage"));
 const UploadPage = lazy(() => import("./pages/UploadPage"));
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
@@ -37,7 +38,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                 <Route path="/" element={<HomePage />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/signin" element={<SignInPage />} />
-                <Route path="/storage" element={<StoragePage />} />
                 <Route path="/gallery" element={<GalleryPage />} />
                 <Route
                   path="/profile"

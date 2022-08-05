@@ -23,7 +23,7 @@ interface IBaseInput {
 
 export interface IDropDownItemProps extends IClassName, IOnClick, IChildren {}
 export interface InputProps extends IBaseInput {}
-export interface IconProps extends IClassName {}
+export interface IconProps extends IClassName, IOnClick {}
 export interface ISharedLayoutProps extends IChildren {}
 
 export interface IDropDownProps extends IClassName, IChildren {

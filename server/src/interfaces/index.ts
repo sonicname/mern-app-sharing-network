@@ -52,6 +52,13 @@ export interface IAttachment {
   content_type: string;
 }
 
+export interface IPostAttachment {
+  data: {
+    id: string;
+    attachments: IAttachment[];
+  };
+}
+
 export interface IRequestDeleteMessage {
   fileID: Types.ObjectId;
 }
