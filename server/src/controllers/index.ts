@@ -10,6 +10,12 @@ import {
   getFiles,
 } from "@controller/storage.controller";
 
+import {
+  getAllTags,
+  createNewTags,
+  updateTag,
+} from "@controller/tags.controller";
+
 export {
   loginUser,
   updateUser,
@@ -17,4 +23,7 @@ export {
   uploadFile,
   deleteFile,
   getFiles,
+  getAllTags,
+  createNewTags,
+  updateTag,
 };

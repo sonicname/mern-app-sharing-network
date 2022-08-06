@@ -4,17 +4,17 @@ import { StatusCodes } from "http-status-codes";
 import { User } from "@models/index";
 import { generateJwt, comparePassword } from "@utils/index";
 import { BadRequest, UnauthenticatedError } from "@errors/index";
-import { IExtentRequestBody, IRequest } from "@interfaces/index";
+import { IExtentRequestBody, IAuthRequest } from "@interfaces/index";
 
 export const loginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body as IRequest;
+  const { email, password } = req.body as IAuthRequest;
   if (!email || !password) {
     throw new BadRequest("Please provide all email, password");
   }
 
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
-    throw new BadRequest("User isn't exists!");
+    throw new BadRequest("User doesn't exists!");
   }
 
   const isPasswordMatch = await comparePassword(user.password, password);

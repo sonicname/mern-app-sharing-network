@@ -1,5 +1,6 @@
 import { JwtPayload } from "jsonwebtoken";
 import { Types } from "mongoose";
+import { StatusCodes } from "http-status-codes";
 
 declare module "jsonwebtoken" {
   export interface CustomJWTPayload extends JwtPayload {
@@ -17,18 +18,18 @@ declare global {
   }
 }
 
-export interface IRequest {
+export interface IError {
+  message: string;
+  statusCode: StatusCodes;
+}
+
+export interface IAuthRequest {
   email: string;
   password: string;
 }
 
-export interface IExtentRequestBody extends IRequest {
+export interface IExtentRequestBody extends IAuthRequest {
   username: string;
-}
-
-export interface IError {
-  statusCode: number;
-  message: string;
 }
 
 export interface IFile {
@@ -65,4 +66,12 @@ export interface IRequestDeleteMessage {
 
 export interface IQueryPage {
   page: string;
+}
+
+export interface ITagRequest {
+  name: string;
+}
+
+export interface ITagUpdateRequest extends ITagRequest {
+  newName: string;
 }
