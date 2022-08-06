@@ -6,7 +6,6 @@ import { StatusCodes } from "http-status-codes";
 import { File } from "@models/index";
 import { BadRequest, UnauthenticatedError } from "@errors/index";
 import {
-  IAttachment,
   IPostAttachment,
   IQueryPage,
   IRequestDeleteMessage,
@@ -15,9 +14,14 @@ import {
 
 export const getFiles = async (req: Request, res: Response) => {
   const { page } = req.query as unknown as IQueryPage;
-  const PER_PAGE = 20;
-  const intPage = page ? parseInt(page) : 0;
-  const SKIP = intPage === 0 || intPage === 1 ? 0 : PER_PAGE * intPage;
+  const PER_PAGE = 10;
+  const intPage = page || page === "0" ? parseInt(page) : 1;
+  if (intPage < 0) {
+    throw new BadRequest("Page invalid!");
+  }
+  const countItem = await File.count({});
+  const totalPages = Math.ceil(countItem / PER_PAGE);
+  const SKIP = intPage === 0 || intPage === 1 ? 0 : PER_PAGE * (intPage - 1);
 
   const files = await File.find({})
     .select("sources -_id")
@@ -25,7 +29,8 @@ export const getFiles = async (req: Request, res: Response) => {
     .limit(PER_PAGE);
 
   return res.status(StatusCodes.OK).json({
-    page,
+    page: intPage,
+    totalPages,
     files,
   });
 };

@@ -14,10 +14,7 @@ const UploadPage = () => {
   const { uploadImage, uploadLoading } = useStorageContext() as IStorageState;
   const [images, setImages] = useState<ImageType[]>([]);
 
-  const onChange = (
-    imageList: ImageListType,
-    addUpdateIndex: number[] | undefined
-  ) => {
+  const onChange = (imageList: ImageListType) => {
     setImages(imageList as never[]);
   };
 

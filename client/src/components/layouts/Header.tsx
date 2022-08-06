@@ -30,7 +30,7 @@ const Header = () => {
               </p>
             </NavLink>
 
-            <NavSearch placeholder={"Hmm... Cosplay Images"} />
+            <NavSearch placeholder={"What are u looking for?"} />
             <NavHamburger
               isActive={showMenu}
               onClick={() => changeShowMenu(!showMenu)}
