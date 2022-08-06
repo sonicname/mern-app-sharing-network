@@ -1,12 +1,15 @@
-import { createContext, ReactNode, useContext, useReducer } from "react";
-import { storageReducers } from "./storageReducers";
-import { Action } from "./storageAction";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Action } from "./storageAction";
+import { IRequestGetImage } from "../../interfaces";
+import { storageReducers } from "./storageReducers";
+import { createContext, ReactNode, useContext, useReducer } from "react";
 //TODO
 export interface IStorageState {
   uploadLoading: boolean;
   uploadImage: (file: File[]) => Promise<void>;
+  images: string[];
+  getImages: (page: number) => Promise<IRequestGetImage>;
 }
 
 const StorageContext = createContext<IStorageState | null>(null);
@@ -14,6 +17,24 @@ const StorageContext = createContext<IStorageState | null>(null);
 const initialStorageState: IStorageState = {
   uploadLoading: false,
   uploadImage: async () => {},
+  images: [],
+  // @ts-ignore
+  getImages: async (page: number): Promise<IRequestGetImage> => {
+    try {
+      const { data } = await axios.get<IRequestGetImage>("/api/v1/storage", {
+        params: {
+          page,
+        },
+      });
+
+      return data;
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        // @ts-ignore
+        toast.error(e.response.data.message);
+      }
+    }
+  },
 };
 
 export const StorageProvider = (props: { children: ReactNode }) => {
@@ -30,7 +51,7 @@ export const StorageProvider = (props: { children: ReactNode }) => {
       files.forEach((file) => {
         formData.append("attachments", file);
       });
-      const { data } = await axios.post("/api/v1/storage/upload", formData, {
+      await axios.post("/api/v1/storage/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
