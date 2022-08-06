@@ -11,7 +11,7 @@ const PostSchema = new Schema(
       type: String,
       trim: true,
     },
-    collection: [
+    images: [
       {
         type: Types.ObjectId,
         ref: "Storage",
@@ -35,3 +35,5 @@ const PostSchema = new Schema(
     timestamps: true,
   }
 );
+
+export default model("Posts", PostSchema);

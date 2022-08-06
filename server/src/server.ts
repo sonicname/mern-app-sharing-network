@@ -66,14 +66,8 @@ const start = async (): Promise<void> => {
     });
   } catch (e) {
     process.exit(1);
-    throw e;
+    console.log(e);
   }
 };
 
-(async () => {
-  try {
-    await start();
-  } catch (e) {
-    console.log(e);
-  }
-})();
+start();
