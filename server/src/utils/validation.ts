@@ -1,4 +1,4 @@
-export const checkPortAndDb = () => {
+export default function checkPortAndDb() {
   const PORT = process.env["PORT"];
   const MONGODB_URI = process.env["MONGODB_URI"];
   const JWT_SECRET = process.env["JWT_SECRET"];
@@ -24,4 +24,4 @@ export const checkPortAndDb = () => {
   if (!DISCORD_WEBHOOK) {
     throw new Error("DISCORD_WEBHOOK is empty!");
   }
-};
+}

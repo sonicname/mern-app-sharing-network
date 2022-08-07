@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { UnauthenticatedError } from "@errors/index";
-import { verifyJwt } from "@utils/verifyJwt";
+import { verifyJwt } from "@utils/index";
 
 export const auth = (req: Request, res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
