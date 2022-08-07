@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { User } from "@models/index";
 import { generateJwt, comparePassword } from "@utils/index";
 import { BadRequest, UnauthenticatedError } from "@errors/index";
-import { IExtentRequestBody, IAuthRequest } from "@interfaces/index";
+import { IExtentAuthRequest, IAuthRequest } from "@interfaces/auth";
 
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body as IAuthRequest;
@@ -32,7 +32,7 @@ export const loginUser = async (req: Request, res: Response) => {
 };
 
 export const registerUser = async (req: Request, res: Response) => {
-  const { email, password, username } = req.body as IExtentRequestBody;
+  const { email, password, username } = req.body as IExtentAuthRequest;
   if (!email || !password || !username) {
     throw new BadRequest("Please provide all username, email, password!");
   }
@@ -49,7 +49,7 @@ export const registerUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-  const { email, password, username } = req.body as IExtentRequestBody;
+  const { email, password, username } = req.body as IExtentAuthRequest;
   if (!email || !password || !username) {
     throw new BadRequest("Please provide all email, password, username");
   }

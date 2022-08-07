@@ -8,7 +8,7 @@ import fileUpload from "express-fileupload";
 
 import "express-async-errors";
 
-import { checkPortAndDb } from "@utils/validation";
+import { checkPortAndDb } from "@utils/index";
 import { connectMongo } from "@db/index";
 import { errorHandle, notFound } from "@middlewares/index";
 import { routes } from "@routes/index";

@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { Tag } from "@models/index";
-import { checkIsAdmin } from "@utils/checkIsAdmin";
-import { BadRequest, UnauthenticatedError } from "@errors/index";
-import { ITagRequest, ITagUpdateRequest } from "@interfaces/index";
+import { BadRequest } from "@errors/index";
+import { ITagRequest, ITagUpdateRequest } from "@interfaces/tags";
+import { checkIsAdmin } from "@utils/index";
 
 export const getAllTags = async (req: Request, res: Response) => {
   const tags = await Tag.find({});
@@ -16,8 +16,7 @@ export const getAllTags = async (req: Request, res: Response) => {
 };
 
 export const createNewTags = async (req: Request, res: Response) => {
-  const isAdmin = await checkIsAdmin(req.user?.userID as string);
-  if (!isAdmin) throw new UnauthenticatedError("You are not admin");
+  await checkIsAdmin(req.user?.userID as string);
 
   const { name } = req.body as ITagRequest;
   if (!name) throw new BadRequest("Please Provide Name Tag!");
@@ -33,20 +32,14 @@ export const createNewTags = async (req: Request, res: Response) => {
 };
 
 export const updateTag = async (req: Request, res: Response) => {
-  const isAdmin = await checkIsAdmin(req.user?.userID as string);
-  if (!isAdmin) throw new UnauthenticatedError("You are not admin");
+  await checkIsAdmin(req.user?.userID as string);
 
   const { name, newName } = req.body as ITagUpdateRequest;
   if (!name || !newName) throw new BadRequest("Please Provide All Field!");
 
   const tag = await Tag.findOne({ name });
-
-  if (tag) {
-    tag.name = newName;
-  } else {
-    throw new BadRequest("Tag doesn't exists!");
-  }
-
+  if (!tag) throw new BadRequest("Tag doesn't exists!");
+  tag.name = newName;
   await tag.save();
 
   return res.status(StatusCodes.OK).json({

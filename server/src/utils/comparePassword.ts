@@ -1,4 +1,8 @@
 import bcrypt from "bcryptjs";
 
-export const comparePassword = (hashPass: string, pass: string) =>
-  bcrypt.compare(pass, hashPass);
+export default function comparePassword(
+  hashPass: string,
+  pass: string
+): Promise<boolean> {
+  return bcrypt.compare(pass, hashPass);
+}
