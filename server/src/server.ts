@@ -8,10 +8,10 @@ import fileUpload from "express-fileupload";
 
 import "express-async-errors";
 
-import { checkPortAndDb } from "@utils/index";
-import { connectMongo } from "@db/index";
-import { errorHandle, notFound } from "@middlewares/index";
+import { connectMongo } from "@db/database";
+import { errorHandleMiddleware, notFoundMiddleware } from "@middlewares/index";
 import { routes } from "@routes/index";
+import DiscordWebhook from "@helpers/DiscordWebhook";
 
 dotenv.config();
 
@@ -52,15 +52,14 @@ app.disable("x-powered-by");
 routes(app);
 
 //middleware
-app.use(errorHandle);
-app.use(notFound);
+app.use(errorHandleMiddleware);
+app.use(notFoundMiddleware);
 
 const start = async (): Promise<void> => {
   try {
-    checkPortAndDb();
     const PORT = process.env["PORT"];
-    const URI_DB = process.env["MONGODB_URI"];
-    await connectMongo(URI_DB as string);
+    await connectMongo(process.env["MONGODB_URI"] as string);
+    new DiscordWebhook(process.env["DISCORD_STORAGE"] as string);
     app.listen(PORT, () => {
       console.log(`App listening on port ${PORT}!`);
     });

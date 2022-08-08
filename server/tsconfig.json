@@ -37,7 +37,8 @@
 			"@utils/*": ["utils/*"],
 			"@errors/*": ["errors/*"],
 			"@models/*": ["models/*"],
-			"@interfaces/*": ["interfaces/*"]
+			"@interfaces/*": ["interfaces/*"],
+			"@helpers/*": ["helpers/*"]
 		} /* Specify a set of entries that re-map imports to additional lookup locations. */,
 		// "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving interfaces. */
 		// "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@interfaces'. */

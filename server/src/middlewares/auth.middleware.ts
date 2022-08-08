@@ -1,8 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { UnauthenticatedError } from "@errors/index";
+import { UnauthenticatedError } from "@errors/errors";
 import { verifyJwt } from "@utils/index";
 
-export const auth = (req: Request, res: Response, next: NextFunction): void => {
+export const authMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer"))
     throw new UnauthenticatedError("Authentication invalid");

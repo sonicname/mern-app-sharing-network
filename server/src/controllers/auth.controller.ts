@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { User } from "@models/index";
+import User from "@models/User.model";
 import { generateJwt, comparePassword } from "@utils/index";
-import { BadRequest, UnauthenticatedError } from "@errors/index";
-import { IExtentAuthRequest, IAuthRequest } from "@interfaces/auth";
+import { BadRequest, UnauthenticatedError } from "@errors/errors";
+import { IAuthRequest, IExtentAuthRequest } from "@interfaces/auth.interface";
 
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body as IAuthRequest;
