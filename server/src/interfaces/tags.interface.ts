@@ -1,3 +1,7 @@
+export interface ITag {
+  name: string;
+}
+
 export interface ITagRequest {
   name: string;
 }

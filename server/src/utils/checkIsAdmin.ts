@@ -1,5 +1,5 @@
 import { User } from "@models/index";
-import { UnauthenticatedError } from "@errors/index";
+import { UnauthenticatedError } from "@errors/errors";
 
 export default async function checkIsAdmin(userID: string): Promise<void> {
   const user = await User.findOne({ _id: userID }).select("+role");

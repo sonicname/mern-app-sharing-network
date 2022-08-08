@@ -1,11 +1,15 @@
 import { Router } from "express";
 const authRoute = Router();
 
-import { loginUser, registerUser, updateUser } from "@controller/index";
-import { auth } from "@middlewares/auth";
+import { authMiddleware } from "@middlewares/auth.middleware";
+import {
+  loginUser,
+  updateUser,
+  registerUser,
+} from "@controller/auth.controller";
 
 authRoute.post("/login", loginUser);
 authRoute.post("/register", registerUser);
-authRoute.patch("/update", auth, updateUser);
+authRoute.patch("/update", authMiddleware, updateUser);
 
 export default authRoute;

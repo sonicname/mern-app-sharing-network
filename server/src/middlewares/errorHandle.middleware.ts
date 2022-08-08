@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { IError } from "@interfaces/index";
+import { IError } from "@interfaces/error.interface";
 
-export const errorHandle = (
+export const errorHandleMiddleware = (
   error: any,
   req: Request,
   res: Response,

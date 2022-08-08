@@ -1,5 +1,5 @@
-import { errorHandle } from "@middlewares/errorHandle";
-import { notFound } from "@middlewares/notFound";
-import { auth } from "@middlewares/auth";
+import { authMiddleware } from "@middlewares/auth.middleware";
+import { notFoundMiddleware } from "@middlewares/notFound.middleware";
+import { errorHandleMiddleware } from "@middlewares/errorHandle.middleware";
 
-export { errorHandle, notFound, auth };
+export { errorHandleMiddleware, notFoundMiddleware, authMiddleware };

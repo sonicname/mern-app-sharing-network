@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
+import { ITag } from "@interfaces/tags.interface";
 
-const TagSchema = new Schema(
+const TagSchema = new Schema<ITag>(
   {
     name: {
       type: String,
@@ -14,4 +15,4 @@ const TagSchema = new Schema(
   }
 );
 
-export default model("Tags", TagSchema);
+export default model("tags", TagSchema);

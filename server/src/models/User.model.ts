@@ -1,8 +1,9 @@
 import { Schema, model } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
+import { IUser } from "@interfaces/auth.interface";
 
-const UserSchema = new Schema({
+const UserSchema = new Schema<IUser>({
   username: {
     type: String,
     required: [true, "Please provide username"],
@@ -40,4 +41,4 @@ UserSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-export default model("Users", UserSchema);
+export default model("users", UserSchema);
