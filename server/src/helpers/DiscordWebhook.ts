@@ -1,7 +1,12 @@
 import axios from "axios";
 import FormData from "form-data";
-import { IFile, IPostAttachment } from "@interfaces/storage.interface";
-import { File } from "@models/index";
+import {
+  IAttachment,
+  IFile,
+  IPostAttachment,
+} from "@interfaces/storage.interface";
+import Storage from "@models/Storage.model";
+import { Types } from "mongoose";
 
 export default class DiscordWebhook {
   public static webhook: string;
@@ -14,7 +19,7 @@ export default class DiscordWebhook {
     attachments: IFile | IFile[],
     thumbnail: IFile,
     userID: string
-  ): Promise<IPostAttachment> {
+  ): Promise<Types.ObjectId> {
     try {
       const formData = new FormData();
       formData.append("thumbnail", thumbnail.data, thumbnail.name);
@@ -26,15 +31,14 @@ export default class DiscordWebhook {
         formData.append("file", attachments.data, attachments.name);
       }
 
-      const { data } = await axios.post<IPostAttachment>(
-        this.webhook,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const { data } = await axios.post<{
+        id: string;
+        attachments: IAttachment[];
+      }>(this.webhook, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      const file = await File.create({
+      const file = await Storage.create({
         messageID: data.id,
         thumbnail: {
           url: data.attachments[0].url,
@@ -49,11 +53,7 @@ export default class DiscordWebhook {
         uploadBy: userID,
       });
 
-      return {
-        attachments: data.attachments,
-        id: data.id,
-        refID: file._id,
-      };
+      return file._id;
     } catch (e) {
       throw e;
     }

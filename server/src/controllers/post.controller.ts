@@ -20,7 +20,7 @@ export const createPost = async (req: Request, res: Response) => {
   if (!tags || !title || !description || !attachments || !thumbnail)
     throw new BadRequest("Please provide all field!");
 
-  const fileUpload = await DiscordWebhook.uploadFile(
+  const fileID = await DiscordWebhook.uploadFile(
     attachments,
     thumbnail,
     req.user?.userID as string
@@ -30,7 +30,7 @@ export const createPost = async (req: Request, res: Response) => {
     title,
     description,
     tags,
-    storages: fileUpload.refID,
+    storages: fileID,
     uploadBy: req.user?.userID as string,
   });
 

@@ -18,6 +18,16 @@ import { v4 } from "uuid";
 import useOnClickOutSide from "../hooks/useOnClickOutSide";
 import ImageUploader from "../components/upload/ImageUploader";
 import { ImageListType } from "react-images-uploading";
+import { IAuthState, useAuthContext } from "../contexts/auth";
+
+interface UploadPageStates {
+  tags: ITag[];
+  filterTags: ITag[];
+  selectTags: ITag[];
+  show: boolean;
+  thumbnail: File[];
+  images: File[];
+}
 
 const UploadPage = () => {
   const {
@@ -26,14 +36,9 @@ const UploadPage = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const [data, setData] = useState<{
-    tags: ITag[];
-    filterTags: ITag[];
-    selectTags: ITag[];
-    show: boolean;
-    thumbnail: File[];
-    images: File[];
-  }>({
+  const { createPost } = useAuthContext() as IAuthState;
+
+  const [data, setData] = useState<UploadPageStates>({
     tags: [],
     filterTags: [],
     selectTags: [],
@@ -143,14 +148,22 @@ const UploadPage = () => {
           </p>
 
           <form
-            onSubmit={handleSubmit((values) => console.log(values))}
+            onSubmit={handleSubmit((values) =>
+              createPost({
+                tags: data.selectTags,
+                title: values.title,
+                description: values.description,
+                thumbnail: data.thumbnail,
+                attachments: data.images,
+              })
+            )}
             className="mt-5 flex flex-col gap-y-5"
           >
             <Field
               control={control}
               type={"text"}
               name={"title"}
-              icon={<IconDocument className="h-4 w-4" />}
+              icon={<IconDocument />}
               placeholder={"Enter your title images collection..."}
               error={errors.title?.message as unknown as string}
             />
@@ -159,7 +172,7 @@ const UploadPage = () => {
               control={control}
               type={"text"}
               name={"description"}
-              icon={<IconDescription className="h-4 w-4" />}
+              icon={<IconDescription />}
               placeholder={"Enter description images collection..."}
               error={errors.title?.message as unknown as string}
             />
