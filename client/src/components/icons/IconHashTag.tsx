@@ -1,7 +1,7 @@
 import { IconProps } from "../../interfaces";
 import classNames from "classnames";
 
-const IconEyeOpen = ({ className }: IconProps) => {
+const IconHashTag = ({ className }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,15 +14,10 @@ const IconEyeOpen = ({ className }: IconProps) => {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-      />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+        d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"
       />
     </svg>
   );
 };
 
-export default IconEyeOpen;
+export default IconHashTag;

@@ -17,7 +17,7 @@ import {
 
 import { IUserToken, IExtentAuthInfo, IAuthInfoBase } from "./auth";
 
-import { IPostImage, ISources, IRequestGetImage } from "./storage";
+import { ITag } from "./tags";
 
 export type {
   IExtentAuthInfo,
@@ -37,7 +37,5 @@ export type {
   IToggleProps,
   ILoadingProps,
   IButtonProps,
-  ISources,
-  IPostImage,
-  IRequestGetImage,
+  ITag,
 };

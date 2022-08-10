@@ -1,4 +1,4 @@
-import { User } from "@models/index";
+import User from "@models/User.model";
 import { UnauthenticatedError } from "@errors/errors";
 
 export default async function checkIsAdmin(userID: string): Promise<void> {

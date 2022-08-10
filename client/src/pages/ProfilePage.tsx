@@ -1,17 +1,17 @@
 import {
   Button,
   Container,
-  FieldAuth,
+  Field,
   IconEmail,
   IconLock,
   IconUser,
   SharedLayout,
 } from "../components";
 import { IAuthState, useAuthContext } from "../contexts/auth";
+import { IGlobalState, useGlobalContext } from "../contexts/global";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { schemaSignUp } from "../validation/schema";
-import { IGlobalState, useGlobalContext } from "../contexts/global";
 
 const ProfilePage = () => {
   const { username, email, updateUser } = useAuthContext() as IAuthState;
@@ -46,7 +46,7 @@ const ProfilePage = () => {
             )}
             className="mt-5 flex flex-col gap-y-5"
           >
-            <FieldAuth
+            <Field
               control={control}
               type={"email"}
               name={"email"}
@@ -55,7 +55,7 @@ const ProfilePage = () => {
               error={errors.email?.message as unknown as string}
             />
 
-            <FieldAuth
+            <Field
               control={control}
               type={"text"}
               name={"username"}
@@ -64,7 +64,7 @@ const ProfilePage = () => {
               error={errors.username?.message as unknown as string}
             />
 
-            <FieldAuth
+            <Field
               control={control}
               type={showPass ? "text" : "password"}
               name={"password"}

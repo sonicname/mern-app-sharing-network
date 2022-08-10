@@ -1,9 +1,9 @@
 import Input from "./Input";
-import LabelAuth from "./LabelAuth";
+import Label from "./Label";
 import { IconEyeClose, IconEyeOpen } from "../icons";
 import { IFieldAuth } from "../../interfaces";
 
-const FieldAuth = ({
+const Field = ({
   control,
   type,
   name,
@@ -17,8 +17,8 @@ const FieldAuth = ({
   defaultValue = "",
 }: IFieldAuth) => {
   return (
-    <div className="flex flex-col gap-y-1 h-full">
-      <div className="relative h-[52px] h-[60px]">
+    <div className="flex flex-col gap-y-1">
+      <div className="relative h-[60px]">
         <Input
           type={type}
           name={name}
@@ -26,7 +26,7 @@ const FieldAuth = ({
           control={control}
           defaultValue={defaultValue}
         />
-        {hasIcon && <LabelAuth htmlFor={name}>{icon ? icon : name}</LabelAuth>}
+        {hasIcon && <Label htmlFor={name}>{icon ? icon : name}</Label>}
         {isPasswordField && (
           <div
             className="absolute top-2/4 right-0 -translate-y-2/4 pr-4 cursor-pointer select-none"
@@ -47,4 +47,4 @@ const FieldAuth = ({
   );
 };
 
-export default FieldAuth;
+export default Field;

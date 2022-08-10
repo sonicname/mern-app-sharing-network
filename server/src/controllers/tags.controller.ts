@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { Tag } from "@models/index";
+import Tag from "@models/Tag.model";
 import { BadRequest } from "@errors/errors";
 import { checkIsAdmin } from "@utils/index";
 import { ITagRequest, ITagUpdateRequest } from "@interfaces/tags.interface";
 
 export const getAllTags = async (req: Request, res: Response) => {
-  const tags = await Tag.find({});
+  const tags = await Tag.find({}).select("name");
 
   return res.status(StatusCodes.OK).json({
     message: "Ok",
