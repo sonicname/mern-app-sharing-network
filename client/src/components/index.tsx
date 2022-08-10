@@ -3,9 +3,9 @@ import Loading from "./Loading";
 import Toggle from "./Toggle";
 import Dropdown from "./dropdown/Dropdown";
 import DropDownItem from "./dropdown/DropDownItem";
-import FieldAuth from "./form/FieldAuth";
+import Field from "./form/Field";
 import Input from "./form/Input";
-import LabelAuth from "./form/LabelAuth";
+import Label from "./form/Label";
 import {
   IconLogout,
   IconEmail,
@@ -19,6 +19,9 @@ import {
   IconImage,
   IconDocument,
   IconRemove,
+  IconDescription,
+  IconHashTag,
+  IconTag,
 } from "./icons";
 import Container from "./layouts/Container";
 import Header from "./layouts/Header";
@@ -27,6 +30,7 @@ import NavLinkItem from "./navbar/NavLinkItem";
 import NavHamburger from "./navbar/NavHamburger";
 import NavSearch from "./navbar/NavSearch";
 import NavSwitchDarkMode from "./navbar/NavSwitchDarkMode";
+import Select from "./select/Select";
 
 export {
   Button,
@@ -35,8 +39,8 @@ export {
   Dropdown,
   DropDownItem,
   Input,
-  FieldAuth,
-  LabelAuth,
+  Field,
+  Label,
   IconLock,
   IconUser,
   IconMoon,
@@ -45,9 +49,12 @@ export {
   IconEyeOpen,
   IconLight,
   IconImage,
+  IconHashTag,
+  IconTag,
   IconDropDown,
   IconEyeClose,
   IconLogout,
+  IconDescription,
   IconDocument,
   SharedLayout,
   Header,
@@ -56,4 +63,5 @@ export {
   NavHamburger,
   NavLinkItem,
   NavSwitchDarkMode,
+  Select,
 };

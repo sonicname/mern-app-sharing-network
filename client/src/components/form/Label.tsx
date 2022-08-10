@@ -5,7 +5,7 @@ interface ILabelProps {
   children: ReactNode;
 }
 
-const LabelAuth = ({ htmlFor, children }: ILabelProps) => {
+const Label = ({ htmlFor, children }: ILabelProps) => {
   return (
     <label
       htmlFor={htmlFor}
@@ -16,4 +16,4 @@ const LabelAuth = ({ htmlFor, children }: ILabelProps) => {
   );
 };
 
-export default LabelAuth;
+export default Label;

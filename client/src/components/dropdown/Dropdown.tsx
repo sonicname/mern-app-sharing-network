@@ -23,7 +23,7 @@ const Dropdown = ({ className, title, children }: IDropDownProps) => {
       <IconDropDown className="h-4 w-4" />
       <div
         className={classNames(
-          "absolute top-full right-0 w-full duration-150 bg-white dark:bg-darkSecondary lg:shadow-md lg:w-32 rounded-md mt-2 pl-4 lg:pl-0",
+          "absolute z-20 top-full right-0 w-full duration-150 bg-white dark:bg-darkSecondary lg:shadow-md lg:w-32 rounded-md mt-2 pl-4 lg:pl-0",
           show ? "scale-100" : "scale-0"
         )}
       >

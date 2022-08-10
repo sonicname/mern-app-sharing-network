@@ -1,7 +1,7 @@
 import {
   Button,
   Container,
-  FieldAuth,
+  Field,
   IconEmail,
   IconLock,
   SharedLayout,
@@ -10,8 +10,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaLogin } from "../validation/schema";
 import { Navigate, NavLink } from "react-router-dom";
-import { IGlobalState, useGlobalContext } from "../contexts/global";
 import { IAuthState, useAuthContext } from "../contexts/auth";
+import { IGlobalState, useGlobalContext } from "../contexts/global";
 
 const SignInPage = () => {
   const { signIn, username } = useAuthContext() as IAuthState;
@@ -44,7 +44,7 @@ const SignInPage = () => {
             )}
             className="mt-5 flex flex-col gap-y-5"
           >
-            <FieldAuth
+            <Field
               control={control}
               type={"email"}
               name={"email"}
@@ -53,7 +53,7 @@ const SignInPage = () => {
               error={errors.email?.message as unknown as string}
             />
 
-            <FieldAuth
+            <Field
               control={control}
               type={showPass ? "text" : "password"}
               name={"password"}

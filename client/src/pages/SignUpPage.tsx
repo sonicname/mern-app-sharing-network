@@ -1,7 +1,7 @@
 import {
   Button,
   Container,
-  FieldAuth,
+  Field,
   IconEmail,
   IconLock,
   IconUser,
@@ -11,8 +11,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaSignUp } from "../validation/schema";
 import { NavLink } from "react-router-dom";
-import { IGlobalState, useGlobalContext } from "../contexts/global";
 import { IAuthState, useAuthContext } from "../contexts/auth";
+import { IGlobalState, useGlobalContext } from "../contexts/global";
 
 const SignUpPage = () => {
   const { showPass, toggleShowPass } = useGlobalContext() as IGlobalState;
@@ -46,7 +46,7 @@ const SignUpPage = () => {
             )}
             className="mt-5 flex flex-col gap-y-5"
           >
-            <FieldAuth
+            <Field
               control={control}
               type={"email"}
               name={"email"}
@@ -55,7 +55,7 @@ const SignUpPage = () => {
               error={errors.email?.message as unknown as string}
             />
 
-            <FieldAuth
+            <Field
               control={control}
               type={"text"}
               name={"username"}
@@ -64,7 +64,7 @@ const SignUpPage = () => {
               error={errors.username?.message as unknown as string}
             />
 
-            <FieldAuth
+            <Field
               control={control}
               type={showPass ? "text" : "password"}
               name={"password"}
