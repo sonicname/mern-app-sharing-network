@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute, ReactNode } from "react";
+import { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from "react";
 import { Control } from "react-hook-form";
 
 interface IClassName {
@@ -73,3 +73,10 @@ export interface IToggleProps {
   on: boolean;
   setOn: () => void;
 }
+
+export interface ISelectProps extends IChildren {
+  handleChangeSelect: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleClickSelect: () => void;
+}
+
+export interface IProtectedPageProps extends IChildren {}

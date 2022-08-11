@@ -9,9 +9,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import Loading from "./components/Loading";
+import ProtectedPage from "./pages/ProtectedPage";
+
 import { GlobalProvider } from "./contexts/global";
 import { AuthProvider } from "./contexts/auth";
-import ProtectedPage from "./pages/ProtectedPage";
+import { PostsProvider } from "./contexts/posts/postsContext";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));
@@ -32,28 +34,30 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       >
         <BrowserRouter>
           <AuthProvider>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/signup" element={<SignUpPage />} />
-              <Route path="/signin" element={<SignInPage />} />
-              <Route path="/gallery" element={<GalleryPage />} />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedPage>
-                    <ProfilePage />
-                  </ProtectedPage>
-                }
-              />
-              <Route
-                path="/upload"
-                element={
-                  <ProtectedPage>
-                    <UploadPage />
-                  </ProtectedPage>
-                }
-              />
-            </Routes>
+            <PostsProvider>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/signin" element={<SignInPage />} />
+                <Route path="/gallery" element={<GalleryPage />} />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedPage>
+                      <ProfilePage />
+                    </ProtectedPage>
+                  }
+                />
+                <Route
+                  path="/upload"
+                  element={
+                    <ProtectedPage>
+                      <UploadPage />
+                    </ProtectedPage>
+                  }
+                />
+              </Routes>
+            </PostsProvider>
           </AuthProvider>
         </BrowserRouter>
       </Suspense>

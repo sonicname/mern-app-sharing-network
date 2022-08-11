@@ -11,12 +11,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaSignUp } from "../validation/schema";
 import { NavLink } from "react-router-dom";
-import { IAuthState, useAuthContext } from "../contexts/auth";
-import { IGlobalState, useGlobalContext } from "../contexts/global";
+import { useAuthContext } from "../contexts/auth";
+import { useGlobalContext } from "../contexts/global";
 
 const SignUpPage = () => {
-  const { showPass, toggleShowPass } = useGlobalContext() as IGlobalState;
-  const { signUp } = useAuthContext() as IAuthState;
+  const { showPass, toggleShowPass } = useGlobalContext();
+  const { signUp } = useAuthContext();
   const {
     control,
     handleSubmit,

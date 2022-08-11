@@ -10,7 +10,7 @@ import {
   Select,
 } from "../components";
 import { useForm } from "react-hook-form";
-import { ITag } from "../interfaces";
+import { ITag, UploadPageStates } from "../interfaces";
 import axios from "axios";
 import { toast } from "react-toastify";
 import classNames from "classnames";
@@ -18,16 +18,7 @@ import { v4 } from "uuid";
 import useOnClickOutSide from "../hooks/useOnClickOutSide";
 import ImageUploader from "../components/upload/ImageUploader";
 import { ImageListType } from "react-images-uploading";
-import { IAuthState, useAuthContext } from "../contexts/auth";
-
-interface UploadPageStates {
-  tags: ITag[];
-  filterTags: ITag[];
-  selectTags: ITag[];
-  show: boolean;
-  thumbnail: File[];
-  images: File[];
-}
+import { usePosts } from "../contexts/posts/postsContext";
 
 const UploadPage = () => {
   const {
@@ -36,105 +27,29 @@ const UploadPage = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const { createPost } = useAuthContext() as IAuthState;
-
-  const [data, setData] = useState<UploadPageStates>({
-    tags: [],
-    filterTags: [],
-    selectTags: [],
-    show: false,
-    images: [],
-    thumbnail: [],
-  });
+  const {
+    createPost,
+    filterTags,
+    selectTags,
+    show,
+    images,
+    thumbnail,
+    showFilter,
+    getAllTags,
+    handleChangeSelect,
+    handleSelectTag,
+    removeSelectedTag,
+    getImagesFromDisk,
+    getThumbnailFromDisk,
+    removeImages,
+  } = usePosts();
 
   const selectRef = useRef(null);
-  useOnClickOutSide(selectRef, () =>
-    setData({
-      ...data,
-      show: false,
-    })
-  );
+  useOnClickOutSide(selectRef, showFilter);
 
   useEffect(() => {
-    axios
-      .get<{ message: string; tags: ITag[] }>("/api/v1/tags")
-      .then((res) => {
-        setData({
-          ...data,
-          tags: res.data.tags,
-          filterTags: res.data.tags,
-        });
-      })
-      .catch((errors) => {
-        toast.error("Something went wrong! Please try again!");
-      });
+    getAllTags();
   }, []);
-
-  const handleChangeSelect = (e: ChangeEvent<HTMLInputElement>) => {
-    setData({
-      ...data,
-      show: true,
-    });
-    let newFilterTags: ITag[] = [];
-    if (!e.target.value) {
-      newFilterTags = data.tags;
-    } else {
-      data.tags.forEach((tag) => {
-        if (tag.name.includes(e.target.value)) {
-          newFilterTags.push(tag);
-        }
-      });
-    }
-
-    setData({
-      ...data,
-      filterTags: newFilterTags,
-    });
-  };
-
-  const handleClickSelect = () => {
-    setData({
-      ...data,
-      show: true,
-    });
-  };
-
-  const handleSelectTag = (tag: ITag) => {
-    if (data.selectTags.includes(tag)) return;
-    setData({
-      ...data,
-      selectTags: [...data.selectTags, tag],
-      show: false,
-    });
-  };
-
-  const handleRemoveTagSelected = (tag: ITag) => {
-    setData({
-      ...data,
-      selectTags: data.selectTags.filter((t) => t.name !== tag.name),
-    });
-  };
-
-  const handleBrowserPhotos = (images: ImageListType) => {
-    setData({
-      ...data,
-      images: images.map((img) => img.file) as File[],
-    });
-  };
-
-  const handleBrowserThumbnail = (images: ImageListType) => {
-    setData({
-      ...data,
-      thumbnail: images.map((img) => img.file) as File[],
-    });
-  };
-
-  const handleRemovePhotos = (index: number) => {
-    setData({
-      ...data,
-      images: data.images.filter((img, i) => index !== i),
-    });
-  };
 
   return (
     <SharedLayout>
@@ -150,11 +65,11 @@ const UploadPage = () => {
           <form
             onSubmit={handleSubmit((values) =>
               createPost({
-                tags: data.selectTags,
+                tags: selectTags,
                 title: values.title,
                 description: values.description,
-                thumbnail: data.thumbnail,
-                attachments: data.images,
+                thumbnail,
+                attachments: images,
               })
             )}
             className="mt-5 flex flex-col gap-y-5"
@@ -179,15 +94,15 @@ const UploadPage = () => {
 
             <div className="flex flex-col gap-y-2">
               <Select
-                handleClickSelect={handleClickSelect}
+                handleClickSelect={showFilter}
                 handleChangeSelect={handleChangeSelect}
               >
-                {data.show && data.filterTags.length > 0 && (
+                {show && filterTags.length > 0 && (
                   <div
                     className="absolute top-full w-full mt-2 bg-white dark:bg-[#212833] z-20 rounded-md flex flex-col shadow-lg border border-strock dark:border-darkStroke"
                     ref={selectRef}
                   >
-                    {data.filterTags.slice(0, 4).map((tag) => (
+                    {filterTags.slice(0, 4).map((tag) => (
                       <div
                         key={tag._id}
                         className={classNames(
@@ -211,13 +126,13 @@ const UploadPage = () => {
 
               <div className="flex items-center gap-x-1 font-medium text-[14px]">
                 <span className="font-bold text-md">Tags:</span>
-                {data.selectTags.length > 0 ? (
+                {selectTags.length > 0 ? (
                   <div className="flex gap-x-1 flex-wrap">
-                    {data.selectTags.map((tag) => (
+                    {selectTags.map((tag) => (
                       <div
                         key={v4()}
                         className="flex gap-x-1 p-1 rounded bg-primary text-white hover:opacity-70 cursor-pointer"
-                        onClick={() => handleRemoveTagSelected(tag)}
+                        onClick={() => removeSelectedTag(tag)}
                       >
                         <span className="font-semibold">{tag.name}</span>
                       </div>
@@ -230,20 +145,20 @@ const UploadPage = () => {
             </div>
 
             <ImageUploader
-              images={data.thumbnail}
+              images={thumbnail}
               max={1}
               multiple={false}
-              onChange={handleBrowserThumbnail}
+              onChange={getThumbnailFromDisk}
               label={"Thumbnail"}
             />
 
             <ImageUploader
-              images={data.images}
+              images={images}
               max={10}
               multiple={true}
-              onChange={handleBrowserPhotos}
+              onChange={getImagesFromDisk}
               label={"Images"}
-              onRemove={handleRemovePhotos}
+              onRemove={removeImages}
             />
 
             <Button type="submit" isLoading={isSubmitting} primary>

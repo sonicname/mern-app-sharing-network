@@ -1,9 +1,9 @@
 import Toggle from "../Toggle";
 import { IconLight, IconMoon } from "../icons";
-import { IGlobalState, useGlobalContext } from "../../contexts/global";
+import { useGlobalContext } from "../../contexts/global";
 
 const NavSwitchDarkMode = () => {
-  const { dark, switchDarkMode } = useGlobalContext() as IGlobalState;
+  const { dark, switchDarkMode } = useGlobalContext();
   return (
     <div className="flex items-center gap-x-3 relative p-3 lg:p-0">
       <Toggle on={dark} setOn={switchDarkMode} />
