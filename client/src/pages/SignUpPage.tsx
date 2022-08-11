@@ -15,8 +15,8 @@ import { useAuthContext } from "../contexts/auth";
 import { useGlobalContext } from "../contexts/global";
 
 const SignUpPage = () => {
-  const { showPass, toggleShowPass } = useGlobalContext();
   const { signUp } = useAuthContext();
+  const { showPass, toggleShowPass } = useGlobalContext();
   const {
     control,
     handleSubmit,

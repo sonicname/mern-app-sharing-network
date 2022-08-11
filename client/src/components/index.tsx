@@ -31,6 +31,7 @@ import NavHamburger from "./navbar/NavHamburger";
 import NavSearch from "./navbar/NavSearch";
 import NavSwitchDarkMode from "./navbar/NavSwitchDarkMode";
 import Select from "./select/Select";
+import ImageUploader from "./upload/ImageUploader";
 
 export {
   Button,
@@ -64,4 +65,5 @@ export {
   NavLinkItem,
   NavSwitchDarkMode,
   Select,
+  ImageUploader,
 };

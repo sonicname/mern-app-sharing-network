@@ -1,10 +1,3 @@
-import { Action } from "./globalAction";
+import { GlobalProvider, useGlobalContext } from "./globalContext";
 
-import {
-  IGlobalState,
-  GlobalProvider,
-  useGlobalContext,
-} from "./globalContext";
-
-export { useGlobalContext, Action, GlobalProvider };
-export type { IGlobalState };
+export { GlobalProvider, useGlobalContext };
