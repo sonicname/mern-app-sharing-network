@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
   Button,
   Container,
@@ -8,17 +8,13 @@ import {
   IconHashTag,
   SharedLayout,
   Select,
+  ImageUploader,
 } from "../components";
 import { useForm } from "react-hook-form";
-import { ITag, UploadPageStates } from "../interfaces";
-import axios from "axios";
-import { toast } from "react-toastify";
 import classNames from "classnames";
 import { v4 } from "uuid";
 import useOnClickOutSide from "../hooks/useOnClickOutSide";
-import ImageUploader from "../components/upload/ImageUploader";
-import { ImageListType } from "react-images-uploading";
-import { usePosts } from "../contexts/posts/postsContext";
+import { usePosts } from "../contexts/posts";
 
 const UploadPage = () => {
   const {

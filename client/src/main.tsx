@@ -13,7 +13,7 @@ import ProtectedPage from "./pages/ProtectedPage";
 
 import { GlobalProvider } from "./contexts/global";
 import { AuthProvider } from "./contexts/auth";
-import { PostsProvider } from "./contexts/posts/postsContext";
+import { PostsProvider } from "./contexts/posts";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));

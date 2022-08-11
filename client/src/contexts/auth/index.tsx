@@ -1,4 +1,3 @@
-import {AuthProvider, IAuthState, useAuthContext} from "./authContext";
+import { AuthProvider, useAuthContext } from "./authContext";
 
 export { useAuthContext, AuthProvider };
-export type { IAuthState };
