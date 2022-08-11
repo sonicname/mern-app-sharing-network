@@ -5,16 +5,16 @@ import {
   useContext,
   useReducer,
 } from "react";
-import { IPost, ITag } from "../../interfaces";
+import { ImageListType } from "react-images-uploading";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+
+import { IPost, ITag, IRequestGetTags } from "../../interfaces";
 import postsReducers from "./postsReducers";
 import { useAuthContext } from "../auth";
 import customAPI from "../../apis/CustomAPI";
-import { useNavigate } from "react-router-dom";
-import { IRequestGetTags } from "../../interfaces/post";
-import { toast } from "react-toastify";
 import { Action } from "./postsAction";
-import { ImageListType } from "react-images-uploading";
-import axios from "axios";
 
 export interface IPostsState {
   tags: ITag[];
@@ -212,7 +212,7 @@ export const PostsProvider = (props: { children: ReactNode }) => {
   return <PostsContext.Provider value={values} {...props} />;
 };
 
-export const usePosts = () => {
+export const usePostsContext = () => {
   const context = useContext(PostsContext);
   if (typeof context === "undefined")
     throw new Error("usePosts must be used within PostsProvider!");

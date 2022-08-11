@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../contexts/auth";
-import { useGlobalContext } from "../../contexts/global";
+
+import { useAuthContext, useGlobalContext } from "../../contexts";
 import {
   Button,
   Container,

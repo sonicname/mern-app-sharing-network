@@ -1,5 +1,5 @@
-import { useController } from "react-hook-form";
 import classNames from "classnames";
+import { useController } from "react-hook-form";
 import { InputProps } from "../../interfaces";
 
 const Input = ({

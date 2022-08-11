@@ -5,17 +5,13 @@ import {
   useEffect,
   useReducer,
 } from "react";
-import { authReducers } from "./authReducers";
-import { Action } from "./authAction";
-import {
-  IAuthInfoBase,
-  IExtentAuthInfo,
-  IUserToken,
-  IPost,
-} from "../../interfaces";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
+import { authReducers } from "./authReducers";
+import { Action } from "./authAction";
+import { IAuthInfoBase, IExtentAuthInfo, IUserToken } from "../../interfaces";
 import customAPI from "../../apis/CustomAPI";
 
 export interface IAuthState {
@@ -29,14 +25,10 @@ export interface IAuthState {
   logout: () => void;
 }
 
-const token = localStorage.getItem("token");
-const username = localStorage.getItem("username");
-const email = localStorage.getItem("email");
-
 const initialState: IAuthState = {
-  token,
-  username,
-  email,
+  token: localStorage.getItem("token"),
+  username: localStorage.getItem("username"),
+  email: localStorage.getItem("email"),
   loadingSubmit: false,
   signIn: async () => {},
   signUp: async () => {},

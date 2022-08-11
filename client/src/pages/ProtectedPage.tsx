@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuthContext } from "../contexts/auth";
+import { useAuthContext } from "../contexts";
 import { IProtectedPageProps } from "../interfaces";
 
 const ProtectedPage = ({ children }: IProtectedPageProps) => {

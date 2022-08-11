@@ -11,9 +11,7 @@ import "swiper/css/pagination";
 import Loading from "./components/Loading";
 import ProtectedPage from "./pages/ProtectedPage";
 
-import { GlobalProvider } from "./contexts/global";
-import { AuthProvider } from "./contexts/auth";
-import { PostsProvider } from "./contexts/posts";
+import { GlobalProvider, AuthProvider, PostsProvider } from "./contexts";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));

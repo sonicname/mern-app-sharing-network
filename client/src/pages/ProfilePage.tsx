@@ -1,3 +1,7 @@
+import { useForm } from "react-hook-form";
+import { schemaSignUp } from "../validation/schema";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import {
   Button,
   Container,
@@ -7,11 +11,7 @@ import {
   IconUser,
   SharedLayout,
 } from "../components";
-import { useAuthContext } from "../contexts/auth";
-import { useGlobalContext } from "../contexts/global";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
-import { schemaSignUp } from "../validation/schema";
+import { useAuthContext, useGlobalContext } from "../contexts";
 
 const ProfilePage = () => {
   const { username, email, updateUser } = useAuthContext();
