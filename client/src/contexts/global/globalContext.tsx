@@ -19,8 +19,6 @@ export interface IGlobalState {
 
 const theme = localStorage.getItem("theme");
 
-const GlobalContext = createContext<IGlobalState | null>(null);
-
 const initialState: IGlobalState = {
   dark: theme === "dark",
   showMenu: false,
@@ -29,6 +27,8 @@ const initialState: IGlobalState = {
   changeShowMenu: () => {},
   toggleShowPass: () => {},
 };
+
+const GlobalContext = createContext<IGlobalState>(initialState);
 
 export const GlobalProvider = (props: { children: ReactNode }) => {
   const [globalState, dispatch] = useReducer(globalReducers, initialState);

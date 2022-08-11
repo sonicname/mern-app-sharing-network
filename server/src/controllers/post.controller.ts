@@ -12,7 +12,7 @@ import {
   IRequestPostImg,
 } from "@interfaces/post.interface";
 
-export const createPost = async (req: Request, res: Response) => {
+const createPost = async (req: Request, res: Response) => {
   if (!req.files) throw new BadRequest("File upload is not provided!");
   const { tags, title, description } = req.body as IRequestCreatePost;
   const { attachments, thumbnail } = req.files as unknown as IRequestPostImg;
@@ -20,7 +20,7 @@ export const createPost = async (req: Request, res: Response) => {
   if (!tags || !title || !description || !attachments || !thumbnail)
     throw new BadRequest("Please provide all field!");
 
-  const fileID = await DiscordWebhook.uploadFile(
+  const storageID = await DiscordWebhook.uploadFile(
     attachments,
     thumbnail,
     req.user?.userID as string
@@ -30,7 +30,7 @@ export const createPost = async (req: Request, res: Response) => {
     title,
     description,
     tags,
-    storages: fileID,
+    storages: storageID,
     uploadBy: req.user?.userID as string,
   });
 
@@ -40,7 +40,7 @@ export const createPost = async (req: Request, res: Response) => {
   });
 };
 
-export const deletePost = async (req: Request, res: Response) => {
+const deletePost = async (req: Request, res: Response) => {
   const { postID } = req.body as IRequestDeletePost;
   if (!postID) throw new BadRequest("Please provide postID to delete post!");
 
@@ -61,3 +61,5 @@ export const deletePost = async (req: Request, res: Response) => {
     message: `Deleted post with ID ${postID}`,
   });
 };
+
+export { createPost, deletePost };

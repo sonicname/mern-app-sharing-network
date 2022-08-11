@@ -7,11 +7,16 @@ import {
 } from "react";
 import { authReducers } from "./authReducers";
 import { Action } from "./authAction";
-import { IAuthInfoBase, IExtentAuthInfo, IUserToken } from "../../interfaces";
+import {
+  IAuthInfoBase,
+  IExtentAuthInfo,
+  IUserToken,
+  IPost,
+} from "../../interfaces";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { IPost } from "../../interfaces/auth";
+import customAPI from "../../apis/CustomAPI";
 
 export interface IAuthState {
   token: string | null;
@@ -21,11 +26,8 @@ export interface IAuthState {
   signIn: (p: IAuthInfoBase) => Promise<void>;
   signUp: (p: IExtentAuthInfo) => Promise<void>;
   updateUser: (p: IExtentAuthInfo) => Promise<void>;
-  createPost: (p: IPost) => Promise<void>;
   logout: () => void;
 }
-
-const AuthContext = createContext<IAuthState | null>(null);
 
 const token = localStorage.getItem("token");
 const username = localStorage.getItem("username");
@@ -40,46 +42,13 @@ const initialState: IAuthState = {
   signUp: async () => {},
   updateUser: async () => {},
   logout: () => {},
-  createPost: async () => {},
 };
+
+const AuthContext = createContext<IAuthState>(initialState);
 
 export const AuthProvider = (props: { children: ReactNode }) => {
   const [authState, dispatch] = useReducer(authReducers, initialState);
   const navigate = useNavigate();
-
-  axios.defaults.headers.common["Authorization"] = `Bearer ${authState.token}`;
-
-  const authClient = axios.create({
-    baseURL: "/api/v1/",
-    headers: {
-      Authorization: `Bearer ${authState.token}`,
-    },
-  });
-
-  authClient.interceptors.request.use(
-    (config) => {
-      // @ts-ignore
-      config.headers.common["Authorization"] = `Bearer ${authState.token}`;
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
-
-  authClient.interceptors.response.use(
-    (res) => {
-      return res;
-    },
-    (error) => {
-      if (error.response.status === 401) {
-        logout();
-        navigate("/signin");
-      }
-
-      return Promise.reject(error);
-    }
-  );
 
   const checkState = (type: string, data: string | null) => {
     if (data) {
@@ -100,6 +69,25 @@ export const AuthProvider = (props: { children: ReactNode }) => {
     localStorage.setItem("username", username);
     localStorage.setItem("email", email);
   };
+
+  const logout = () => {
+    dispatch({
+      type: Action.SETUP_USER_SUCCESS,
+      payload: {
+        username: null,
+        password: null,
+        email: null,
+      },
+    });
+
+    removeAllAuthInfo();
+  };
+
+  const authClient = customAPI({
+    token: authState.token,
+    logout: () => logout(),
+    navigate,
+  });
 
   useEffect(() => {
     checkState("token", authState.token);
@@ -123,6 +111,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
           token: data.token,
         },
       });
+
       addAllAuthInfo(data);
       toast.success("Login success!");
       navigate("/");
@@ -193,67 +182,12 @@ export const AuthProvider = (props: { children: ReactNode }) => {
     }
   };
 
-  const logout = () => {
-    dispatch({
-      type: Action.SETUP_USER_SUCCESS,
-      payload: {
-        username: null,
-        password: null,
-        email: null,
-      },
-    });
-
-    removeAllAuthInfo();
-  };
-
-  const createPost = async ({
-    tags,
-    thumbnail,
-    title,
-    description,
-    attachments,
-  }: IPost) => {
-    if (!attachments || !thumbnail) {
-      toast.error("Please add files to upload!");
-      return;
-    }
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    thumbnail.forEach((thumb) => {
-      formData.append("thumbnail", thumb, thumb.name);
-    });
-    attachments.forEach((attachment) => {
-      formData.append("attachments", attachment, attachment.name);
-    });
-    tags.forEach((tag) => {
-      formData.append("tags", tag._id);
-    });
-
-    try {
-      await authClient.post("/post/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      toast.success("Created post success!");
-      navigate("/");
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        // @ts-ignore
-        toast.error(e.response.data.message);
-      }
-    }
-  };
-
   const values = {
     ...authState,
     signIn,
     signUp,
     updateUser,
     logout,
-    createPost,
   };
 
   return <AuthContext.Provider value={values} {...props} />;

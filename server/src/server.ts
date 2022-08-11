@@ -8,10 +8,12 @@ import fileUpload from "express-fileupload";
 
 import "express-async-errors";
 
-import { connectMongo } from "@db/database";
-import { errorHandleMiddleware, notFoundMiddleware } from "@middlewares/index";
-import { routes } from "@routes/index";
+import connectMongo from "@db/database";
+import routes from "@routes/index";
 import DiscordWebhook from "@helpers/DiscordWebhook";
+import JWTHelper from "@helpers/JWTHelper";
+
+import { errorHandleMiddleware, notFoundMiddleware } from "@middlewares/index";
 
 dotenv.config();
 
@@ -59,13 +61,18 @@ const start = async (): Promise<void> => {
   try {
     const PORT = process.env["PORT"];
     await connectMongo(process.env["MONGODB_URI"] as string);
+    console.log("Database connected!");
     new DiscordWebhook(process.env["DISCORD_STORAGE"] as string);
+    new JWTHelper(
+      process.env["JWT_SECRET"] as string,
+      process.env["JWT_LIFETIME"] as string
+    );
     app.listen(PORT, () => {
       console.log(`App listening on port ${PORT}!`);
     });
   } catch (e) {
-    process.exit(1);
     console.log(e);
+    process.exit(1);
   }
 };
 

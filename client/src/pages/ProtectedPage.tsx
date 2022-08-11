@@ -1,13 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { IAuthState, useAuthContext } from "../contexts/auth";
-import { ReactNode } from "react";
-
-interface IProtectedPageProps {
-  children: ReactNode;
-}
+import { useAuthContext } from "../contexts/auth";
+import { IProtectedPageProps } from "../interfaces";
 
 const ProtectedPage = ({ children }: IProtectedPageProps) => {
-  const { username, token, email } = useAuthContext() as IAuthState;
+  const { username, token, email } = useAuthContext();
   if (!username && !token && !email) return <Navigate to={"/signin"} />;
 
   return <>{children}</>;

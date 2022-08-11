@@ -10,14 +10,14 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaLogin } from "../validation/schema";
 import { Navigate, NavLink } from "react-router-dom";
-import { IAuthState, useAuthContext } from "../contexts/auth";
-import { IGlobalState, useGlobalContext } from "../contexts/global";
+import { useAuthContext } from "../contexts/auth";
+import { useGlobalContext } from "../contexts/global";
 
 const SignInPage = () => {
-  const { signIn, username } = useAuthContext() as IAuthState;
+  const { signIn, username } = useAuthContext();
   if (username) return <Navigate to={"/"} />;
 
-  const { toggleShowPass, showPass } = useGlobalContext() as IGlobalState;
+  const { toggleShowPass, showPass } = useGlobalContext();
   const {
     control,
     handleSubmit,

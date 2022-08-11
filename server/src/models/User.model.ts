@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import validator from "validator";
-import bcrypt from "bcryptjs";
+import { genSalt, hash } from "bcryptjs";
 import { IUser } from "@interfaces/auth.interface";
 
 const UserSchema = new Schema<IUser>({
@@ -37,8 +37,8 @@ const UserSchema = new Schema<IUser>({
 
 UserSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  const salt = await genSalt(10);
+  this.password = await hash(this.password, salt);
 });
 
 export default model("users", UserSchema);

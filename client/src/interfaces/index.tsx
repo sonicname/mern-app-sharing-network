@@ -13,11 +13,15 @@ import {
   IToggleProps,
   ILoadingProps,
   IButtonProps,
+  IProtectedPageProps,
+  ISelectProps,
 } from "./components";
 
-import { IUserToken, IExtentAuthInfo, IAuthInfoBase } from "./auth";
+import { IUserToken, IExtentAuthInfo, IAuthInfoBase, IPost } from "./auth";
 
 import { ITag } from "./tags";
+
+import { UploadPageStates } from "./post";
 
 export type {
   IExtentAuthInfo,
@@ -38,4 +42,8 @@ export type {
   ILoadingProps,
   IButtonProps,
   ITag,
+  IPost,
+  IProtectedPageProps,
+  ISelectProps,
+  UploadPageStates,
 };

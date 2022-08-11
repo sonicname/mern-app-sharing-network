@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { NavLink, useNavigate } from "react-router-dom";
-import { IAuthState, useAuthContext } from "../../contexts/auth";
-import { useGlobalContext, IGlobalState } from "../../contexts/global";
+import { useAuthContext } from "../../contexts/auth";
+import { useGlobalContext } from "../../contexts/global";
 import {
   Button,
   Container,
@@ -17,8 +17,8 @@ import {
 
 const Header = () => {
   const navigate = useNavigate();
-  const { showMenu, changeShowMenu } = useGlobalContext() as IGlobalState;
-  const { username, logout } = useAuthContext() as IAuthState;
+  const { showMenu, changeShowMenu } = useGlobalContext();
+  const { username, logout } = useAuthContext();
   return (
     <header className="w-full dark:bg-darkbg">
       <Container isFluid>

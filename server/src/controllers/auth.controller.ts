@@ -2,27 +2,32 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import User from "@models/User.model";
-import { generateJwt, comparePassword } from "@utils/index";
-import { BadRequest, UnauthenticatedError } from "@errors/errors";
-import { IAuthRequest, IExtentAuthRequest } from "@interfaces/auth.interface";
 
-export const loginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body as IAuthRequest;
-  if (!email || !password) {
+import JWTHelper from "@helpers/JWTHelper";
+import AuthHelper from "@helpers/AuthHelper";
+
+import { BadRequest, UnauthenticatedError } from "@errors/errors";
+import {
+  ILoginRequest,
+  IRegisterRequest,
+  IUpdateRequest,
+} from "@interfaces/auth.interface";
+
+const loginUser = async (req: Request, res: Response) => {
+  const { email, password } = req.body as ILoginRequest;
+  if (!email || !password)
     throw new BadRequest("Please provide all email, password");
-  }
 
   const user = await User.findOne({ email }).select("+password");
-  if (!user) {
-    throw new BadRequest("User doesn't exists!");
-  }
+  if (!user) throw new BadRequest("User doesn't exists!");
 
-  const isPasswordMatch = await comparePassword(user.password, password);
-  if (!isPasswordMatch) {
-    throw new UnauthenticatedError("Invalid Credentials");
-  }
+  const isPasswordMatch = await AuthHelper.comparePassword(
+    password,
+    user.password
+  );
+  if (!isPasswordMatch) throw new UnauthenticatedError("Invalid credentials");
 
-  const token = generateJwt(user._id);
+  const token = JWTHelper.generateJWT(user._id);
 
   return res.status(StatusCodes.OK).json({
     username: user.username,
@@ -31,15 +36,19 @@ export const loginUser = async (req: Request, res: Response) => {
   });
 };
 
-export const registerUser = async (req: Request, res: Response) => {
-  const { email, password, username } = req.body as IExtentAuthRequest;
+const registerUser = async (req: Request, res: Response) => {
+  const { email, password, username } = req.body as IRegisterRequest;
   if (!email || !password || !username) {
     throw new BadRequest("Please provide all username, email, password!");
   }
 
-  const user = await User.create(req.body);
+  const user = await User.create({
+    email,
+    password,
+    username,
+  });
   //generate jwt token
-  const token = generateJwt(user._id);
+  const token = JWTHelper.generateJWT(user._id);
 
   return res.status(StatusCodes.OK).json({
     username: user.username,
@@ -48,29 +57,29 @@ export const registerUser = async (req: Request, res: Response) => {
   });
 };
 
-export const updateUser = async (req: Request, res: Response) => {
-  const { email, password, username } = req.body as IExtentAuthRequest;
-  if (!email || !password || !username) {
+const updateUser = async (req: Request, res: Response) => {
+  const { email, password, username } = req.body as IUpdateRequest;
+  if (!email || !password || !username)
     throw new BadRequest("Please provide all email, password, username");
-  }
 
   const user = await User.findOne({ _id: req.user?.userID }).select(
     "+password"
   );
 
-  if (user) {
-    user.email = email;
-    user.username = username;
-    user.password = password;
-  } else {
-    throw new UnauthenticatedError("Invalid Credentials");
-  }
+  if (!user) throw new UnauthenticatedError("Invalid credentials");
+
+  user.email = email;
+  user.username = username;
+  user.password = password;
 
   await user.save();
-  const token = generateJwt(user._id);
+  const token = JWTHelper.generateJWT(user._id);
+
   return res.status(StatusCodes.OK).json({
-    email: user.email,
-    username: user.username,
+    email,
+    username,
     token,
   });
 };
+
+export { loginUser, registerUser, updateUser };

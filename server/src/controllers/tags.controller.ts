@@ -3,22 +3,25 @@ import { StatusCodes } from "http-status-codes";
 
 import Tag from "@models/Tag.model";
 import { BadRequest } from "@errors/errors";
-import { checkIsAdmin } from "@utils/index";
-import { ITagRequest, ITagUpdateRequest } from "@interfaces/tags.interface";
+import {
+  ICreateTagRequest,
+  IDeleteTagRequest,
+  IUpdateTagRequest,
+} from "@interfaces/tags.interface";
+import AuthHelper from "@helpers/AuthHelper";
 
-export const getAllTags = async (req: Request, res: Response) => {
-  const tags = await Tag.find({}).select("name");
-
+const getAllTags = async (req: Request, res: Response) => {
+  const tags = await Tag.find().select("name");
   return res.status(StatusCodes.OK).json({
     message: "Ok",
     tags,
   });
 };
 
-export const createNewTags = async (req: Request, res: Response) => {
-  await checkIsAdmin(req.user?.userID as string);
+const createNewTags = async (req: Request, res: Response) => {
+  await AuthHelper.checkIsAdmin(req.user?.userID as string);
 
-  const { name } = req.body as ITagRequest;
+  const { name } = req.body as ICreateTagRequest;
   if (!name) throw new BadRequest("Please provide name tag!");
 
   const tag = await Tag.create({
@@ -31,14 +34,15 @@ export const createNewTags = async (req: Request, res: Response) => {
   });
 };
 
-export const updateTag = async (req: Request, res: Response) => {
-  await checkIsAdmin(req.user?.userID as string);
+const updateTag = async (req: Request, res: Response) => {
+  await AuthHelper.checkIsAdmin(req.user?.userID as string);
 
-  const { name, newName } = req.body as ITagUpdateRequest;
+  const { name, newName } = req.body as IUpdateTagRequest;
   if (!name || !newName) throw new BadRequest("Please Provide All Field!");
 
   const tag = await Tag.findOne({ name });
   if (!tag) throw new BadRequest("Tag doesn't exists!");
+
   tag.name = newName;
   await tag.save();
 
@@ -48,10 +52,10 @@ export const updateTag = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteTag = async (req: Request, res: Response) => {
-  await checkIsAdmin(req.user?.userID as string);
+const deleteTag = async (req: Request, res: Response) => {
+  await AuthHelper.checkIsAdmin(req.user?.userID as string);
 
-  const { name } = req.body as ITagRequest;
+  const { name } = req.body as IDeleteTagRequest;
   if (!name) throw new BadRequest("Please provide name tag!");
   const tag = await Tag.findOne({ name });
   if (!tag) throw new BadRequest(`Tag ${name} doesn't exists!`);
@@ -62,3 +66,5 @@ export const deleteTag = async (req: Request, res: Response) => {
     message: `Deleted tag ${name} success!`,
   });
 };
+
+export { getAllTags, createNewTags, updateTag, deleteTag };

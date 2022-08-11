@@ -1,12 +1,6 @@
-import { ChangeEvent, ReactNode } from "react";
 import { IconDropDown } from "../icons";
 import IconTag from "../icons/IconTag";
-
-interface ISelectProps {
-  children: ReactNode;
-  handleChangeSelect: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleClickSelect: () => void;
-}
+import { ISelectProps } from "../../interfaces";
 
 const Select = ({
   handleChangeSelect,

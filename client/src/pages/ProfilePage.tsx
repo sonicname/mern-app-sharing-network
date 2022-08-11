@@ -7,15 +7,15 @@ import {
   IconUser,
   SharedLayout,
 } from "../components";
-import { IAuthState, useAuthContext } from "../contexts/auth";
-import { IGlobalState, useGlobalContext } from "../contexts/global";
+import { useAuthContext } from "../contexts/auth";
+import { useGlobalContext } from "../contexts/global";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { schemaSignUp } from "../validation/schema";
 
 const ProfilePage = () => {
-  const { username, email, updateUser } = useAuthContext() as IAuthState;
-  const { showPass, toggleShowPass } = useGlobalContext() as IGlobalState;
+  const { username, email, updateUser } = useAuthContext();
+  const { showPass, toggleShowPass } = useGlobalContext();
   const {
     control,
     handleSubmit,
