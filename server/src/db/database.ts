@@ -1,5 +1,5 @@
-import { connect, Mongoose } from "mongoose";
+import { connect } from "mongoose";
 
-export const connectMongo = (URL: string): Promise<Mongoose> => {
+export default function connectMongo(URL: string) {
   return connect(URL);
-};
+}

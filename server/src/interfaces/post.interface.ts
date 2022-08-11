@@ -1,22 +1,22 @@
 import { Document, PopulatedDoc } from "mongoose";
-import { IStorage } from "@interfaces/storage.interface";
+import { IFile, IStorage } from "@interfaces/storage.interface";
 import { ITag } from "@interfaces/tags.interface";
 import { IUser } from "@interfaces/auth.interface";
 
-export interface IPost {
+interface ITitle {
   title: string;
+}
+
+interface IDescription {
   description: string;
+}
+
+export interface IPost extends ITitle, IDescription {
   storages: PopulatedDoc<IStorage & Document>;
-  tags: PopulatedDoc<ITag> & Document;
+  tags: PopulatedDoc<ITag & Document>;
   uploadBy: PopulatedDoc<IUser & Document>;
   postLikes: PopulatedDoc<IUser & Document>[];
   postStatus: string;
-}
-
-interface IFile {
-  name: string;
-  data: Buffer;
-  size: number;
 }
 
 export interface IRequestPostImg {
@@ -24,9 +24,7 @@ export interface IRequestPostImg {
   thumbnail: IFile;
 }
 
-export interface IRequestCreatePost {
-  title: string;
-  description: string;
+export interface IRequestCreatePost extends ITitle, IDescription {
   tags: string[];
 }
 

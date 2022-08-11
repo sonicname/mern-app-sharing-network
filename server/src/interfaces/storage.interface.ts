@@ -7,30 +7,23 @@ export interface IFile {
   size: number;
 }
 
-export interface IAttachment {
+export interface IAttachmentURL {
+  url: string;
+  proxy_url: string;
+}
+
+export interface IAttachment extends IAttachmentURL {
   id: string;
   filename: string;
   size: number;
-  url: string;
-  proxy_url: string;
   width: number;
   height: number;
   content_type: string;
 }
 
-export interface IPostAttachment {
-  data: {
-    id: string;
-    attachments: IAttachment[];
-  };
-}
-
 export interface IStorage {
   messageID: string;
-  thumbnail: {
-    url: string;
-    proxy_url: string;
-  };
-  attachments: { url: string; proxy_url: string }[];
+  thumbnail: IAttachmentURL;
+  attachments: IAttachmentURL[];
   uploadBy: PopulatedDoc<IUser & Document>;
 }

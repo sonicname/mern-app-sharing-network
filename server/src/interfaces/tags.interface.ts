@@ -1,12 +1,13 @@
-export interface ITag {
+interface IName {
   name: string;
 }
 
-export interface ITagRequest {
-  name: string;
-}
+export interface ITag extends IName {}
 
-export interface ITagUpdateRequest {
+export interface ICreateTagRequest extends IName {}
+
+export interface IUpdateTagRequest extends IName {
   newName: string;
-  name: string;
 }
+
+export interface IDeleteTagRequest extends IName {}
