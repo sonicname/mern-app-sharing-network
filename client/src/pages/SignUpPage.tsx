@@ -11,8 +11,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaSignUp } from "../validation/schema";
 import { NavLink } from "react-router-dom";
-import { useAuthContext } from "../contexts/auth";
-import { useGlobalContext } from "../contexts/global";
+import { useAuthContext, useGlobalContext } from "../contexts";
 
 const SignUpPage = () => {
   const { signUp } = useAuthContext();

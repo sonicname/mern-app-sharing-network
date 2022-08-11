@@ -1,5 +1,6 @@
 import { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from "react";
 import { Control } from "react-hook-form";
+import { ImageListType } from "react-images-uploading";
 
 interface IClassName {
   className?: string;
@@ -80,3 +81,16 @@ export interface ISelectProps extends IChildren {
 }
 
 export interface IProtectedPageProps extends IChildren {}
+
+export interface ILabelProps extends IChildren {
+  htmlFor: string;
+}
+
+export interface ImageUploaderProps {
+  images: File[];
+  max: number;
+  multiple: boolean;
+  onChange: (imageList: ImageListType) => void;
+  onRemove?: (index: number) => void;
+  label: string;
+}

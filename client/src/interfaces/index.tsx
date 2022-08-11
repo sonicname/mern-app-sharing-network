@@ -21,7 +21,7 @@ import { IUserToken, IExtentAuthInfo, IAuthInfoBase, IPost } from "./auth";
 
 import { ITag } from "./tags";
 
-import { UploadPageStates } from "./post";
+import { UploadPageStates, IRequestGetTags } from "./post";
 
 export type {
   IExtentAuthInfo,
@@ -46,4 +46,5 @@ export type {
   IProtectedPageProps,
   ISelectProps,
   UploadPageStates,
+  IRequestGetTags,
 };

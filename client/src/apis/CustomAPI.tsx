@@ -14,6 +14,8 @@ const customAPI = ({
 }: ICustomAPIParams): AxiosInstance => {
   const instance = axios.create({
     baseURL: "/api/v1",
+    timeout: 60_000,
+    timeoutErrorMessage: "Request timeout!",
   });
 
   instance.interceptors.request.use(

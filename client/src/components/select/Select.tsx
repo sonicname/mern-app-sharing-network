@@ -1,5 +1,4 @@
-import { IconDropDown } from "../icons";
-import IconTag from "../icons/IconTag";
+import { IconDropDown, IconTag } from "../icons";
 import { ISelectProps } from "../../interfaces";
 
 const Select = ({

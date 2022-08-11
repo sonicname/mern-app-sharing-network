@@ -1,4 +1,10 @@
+import { v4 } from "uuid";
+import classNames from "classnames";
 import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+
+import useOnClickOutSide from "../hooks/useOnClickOutSide";
+import { usePostsContext } from "../contexts";
 import {
   Button,
   Container,
@@ -10,11 +16,6 @@ import {
   Select,
   ImageUploader,
 } from "../components";
-import { useForm } from "react-hook-form";
-import classNames from "classnames";
-import { v4 } from "uuid";
-import useOnClickOutSide from "../hooks/useOnClickOutSide";
-import { usePosts } from "../contexts/posts";
 
 const UploadPage = () => {
   const {
@@ -24,12 +25,12 @@ const UploadPage = () => {
   } = useForm();
 
   const {
-    createPost,
     filterTags,
     selectTags,
     show,
     images,
     thumbnail,
+    createPost,
     showFilter,
     getAllTags,
     handleChangeSelect,
@@ -38,7 +39,7 @@ const UploadPage = () => {
     getImagesFromDisk,
     getThumbnailFromDisk,
     removeImages,
-  } = usePosts();
+  } = usePostsContext();
 
   const selectRef = useRef(null);
   useOnClickOutSide(selectRef, showFilter);

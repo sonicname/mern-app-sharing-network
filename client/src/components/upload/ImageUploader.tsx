@@ -1,15 +1,8 @@
-import ImageUploading, { ImageListType } from "react-images-uploading";
-import { Button } from "../index";
+import ImageUploading from "react-images-uploading";
 import { v4 } from "uuid";
 
-interface ImageUploaderProps {
-  images: File[];
-  max: number;
-  multiple: boolean;
-  onChange: (imageList: ImageListType) => void;
-  onRemove?: (index: number) => void;
-  label: string;
-}
+import { Button } from "../index";
+import { ImageUploaderProps } from "../../interfaces/components";
 
 const ImageUploader = ({
   images,

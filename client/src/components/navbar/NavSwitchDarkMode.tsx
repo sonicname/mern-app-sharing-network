@@ -1,6 +1,6 @@
 import Toggle from "../Toggle";
 import { IconLight, IconMoon } from "../icons";
-import { useGlobalContext } from "../../contexts/global";
+import { useGlobalContext } from "../../contexts";
 
 const NavSwitchDarkMode = () => {
   const { dark, switchDarkMode } = useGlobalContext();
