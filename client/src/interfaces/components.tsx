@@ -14,9 +14,12 @@ interface IChildren {
   children: ReactNode;
 }
 
-interface IBaseInput {
-  type: HTMLInputTypeAttribute;
+interface IPlaceholder {
   placeholder?: string;
+}
+
+interface IBaseInput extends IPlaceholder {
+  type: HTMLInputTypeAttribute;
   defaultValue?: string;
   name: string;
   control: Control;
@@ -56,9 +59,7 @@ export interface INavLinkProps extends IChildren, IClassName {
   to: string;
 }
 
-export interface INavSearchProps extends IClassName {
-  placeholder?: string;
-}
+export interface INavSearchProps extends IClassName, IPlaceholder {}
 
 export interface IButtonProps extends IChildren, IClassName, IOnClick {
   isLoading?: boolean;
@@ -75,7 +76,7 @@ export interface IToggleProps {
   setOn: () => void;
 }
 
-export interface ISelectProps extends IChildren {
+export interface ISelectProps extends IChildren, IPlaceholder {
   handleChangeSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   handleClickSelect: () => void;
 }

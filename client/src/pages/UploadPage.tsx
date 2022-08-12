@@ -21,7 +21,7 @@ const UploadPage = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm();
 
   const {
@@ -39,10 +39,12 @@ const UploadPage = () => {
     getImagesFromDisk,
     getThumbnailFromDisk,
     removeImages,
+    loading,
+    hideFilter,
   } = usePostsContext();
 
   const selectRef = useRef(null);
-  useOnClickOutSide(selectRef, showFilter);
+  useOnClickOutSide(selectRef, hideFilter);
 
   useEffect(() => {
     getAllTags();
@@ -77,7 +79,6 @@ const UploadPage = () => {
               name={"title"}
               icon={<IconDocument />}
               placeholder={"Enter your title images collection..."}
-              error={errors.title?.message as unknown as string}
             />
 
             <Field
@@ -86,13 +87,13 @@ const UploadPage = () => {
               name={"description"}
               icon={<IconDescription />}
               placeholder={"Enter description images collection..."}
-              error={errors.title?.message as unknown as string}
             />
 
             <div className="flex flex-col gap-y-2">
               <Select
                 handleClickSelect={showFilter}
                 handleChangeSelect={handleChangeSelect}
+                placeholder={"Select tags for your images..."}
               >
                 {show && filterTags.length > 0 && (
                   <div
@@ -158,7 +159,7 @@ const UploadPage = () => {
               onRemove={removeImages}
             />
 
-            <Button type="submit" isLoading={isSubmitting} primary>
+            <Button type="submit" isLoading={isSubmitting && loading} primary>
               Upload
             </Button>
           </form>

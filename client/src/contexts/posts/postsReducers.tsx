@@ -18,6 +18,7 @@ export default function postsReducers(
         ...state,
         loading: false,
         tags: action.payload,
+        filterTags: action.payload,
       };
     }
 
