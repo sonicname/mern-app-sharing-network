@@ -31,3 +31,21 @@ export interface IRequestCreatePost extends ITitle, IDescription {
 export interface IRequestDeletePost {
   postID: string;
 }
+
+export interface IRequestGetPosts {
+  page?: string;
+  limit?: string;
+  search?: string;
+  sort?: string;
+}
+
+export interface IQueryObject {
+  title?: {
+    $regex: string;
+    $options: string;
+  };
+}
+
+export interface IRequestLikePost {
+  postID: string;
+}

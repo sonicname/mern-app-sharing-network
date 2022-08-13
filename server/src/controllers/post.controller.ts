@@ -7,10 +7,50 @@ import Post from "@models/Post.model";
 import Storage from "@models/Storage.model";
 
 import {
+  IQueryObject,
   IRequestCreatePost,
   IRequestDeletePost,
+  IRequestGetPosts,
+  IRequestLikePost,
   IRequestPostImg,
 } from "@interfaces/post.interface";
+
+const getPosts = async (req: Request, res: Response) => {
+  const { page, limit, search } = req.body as IRequestGetPosts;
+
+  const queryObject: IQueryObject = {};
+
+  if (search) {
+    queryObject.title = {
+      $regex: search,
+      $options: "i",
+    };
+  }
+
+  const countPosts = await Post.countDocuments(queryObject);
+  const LIMIT = Number(limit) || 10;
+  const totalPages = Math.ceil(countPosts / LIMIT);
+  const SKIP = !Number(page) || Number(page) <= 1 ? 0 : LIMIT * Number(page);
+
+  let posts = await Post.find(queryObject)
+    .select("-description -tags -__v -updatedAt -post")
+    .populate({
+      path: "storages",
+      select: "thumbnail -_id",
+    })
+    .populate({
+      path: "uploadBy",
+      select: "username",
+    })
+    .skip(SKIP)
+    .limit(LIMIT);
+
+  return res.status(StatusCodes.OK).json({
+    totalPages,
+    page,
+    posts,
+  });
+};
 
 const createPost = async (req: Request, res: Response) => {
   if (!req.files) throw new BadRequest("File upload is not provided!");
@@ -62,4 +102,48 @@ const deletePost = async (req: Request, res: Response) => {
   });
 };
 
-export { createPost, deletePost };
+const likePost = async (req: Request, res: Response) => {
+  const { postID } = req.body as IRequestLikePost;
+  if (!postID) throw new BadRequest("Please provide postID!");
+
+  const post = await Post.findOne({ _id: postID });
+  if (!post) throw new BadRequest("Post doesn't exists!");
+
+  if (post.postLikes.includes(req.user?.userID))
+    throw new BadRequest("You are already liked this post!");
+
+  await Post.updateOne(
+    { _id: postID },
+    {
+      $push: {
+        postLikes: req.user?.userID,
+      },
+    }
+  );
+  return res.status(StatusCodes.OK).json({
+    message: "Ok",
+  });
+};
+
+const dislikePost = async (req: Request, res: Response) => {
+  const { postID } = req.body as IRequestLikePost;
+  if (!postID) throw new BadRequest("Please provide postID!");
+
+  const post = await Post.findOne({ _id: postID });
+  if (!post) throw new BadRequest("Post doesn't exists!");
+
+  await Post.updateOne(
+    { _id: postID },
+    {
+      $pullAll: {
+        postLikes: [req.user?.userID],
+      },
+    }
+  );
+
+  return res.status(StatusCodes.OK).json({
+    message: "Ok",
+  });
+};
+
+export { createPost, deletePost, getPosts, likePost, dislikePost };
