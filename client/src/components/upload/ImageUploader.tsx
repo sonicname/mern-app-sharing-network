@@ -1,8 +1,11 @@
 import ImageUploading from "react-images-uploading";
 import { v4 } from "uuid";
 
-import { Button } from "../index";
+import { Button, IconImage } from "../index";
 import { ImageUploaderProps } from "../../interfaces/components";
+import classNames from "classnames";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
 
 const ImageUploader = ({
   images,
@@ -19,39 +22,57 @@ const ImageUploader = ({
       maxNumber={max}
       multiple={multiple}
     >
-      {({ onImageUpload, isDragging, dragProps, onImageRemove }) => (
-        <div className="w-full max-h-[350px] flex flex-col gap-y-2">
-          <h3 className="text-md font-medium">{label}</h3>
-          {images.length > 0 ? (
-            <div className="flex flex-wrap gap-x-1">
-              {images.map((image, index) => (
-                <span
-                  key={v4()}
-                  className="p-1 bg-secondary rounded shadow-md hover:opacity-70 cursor-pointer"
-                  onClick={() => {
-                    if (!multiple || !onRemove) {
-                      onImageRemove(index);
-                    } else {
-                      onRemove(index);
-                    }
-                  }}
-                >
-                  {image.name}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <Button
-              className={`w-full ${isDragging && "opacity-70"}`}
-              type={"button"}
-              onClick={onImageUpload}
-              {...dragProps}
-            >
-              Browser Images
-            </Button>
-          )}
-        </div>
-      )}
+      {({ imageList, onImageUpload, isDragging, dragProps, onImageRemove }) => {
+        return (
+          <div className="flex flex-col gap-y-2">
+            <h3 className="text-md font-semibold">{label}</h3>
+            {imageList.length > 0 ? (
+              <Swiper
+                grabCursor={true}
+                pagination={{
+                  type: "fraction",
+                }}
+                modules={[Pagination]}
+                className="w-full max-h-[350px]"
+              >
+                {imageList.map((image, index) => (
+                  <SwiperSlide key={v4()} className="hover:opacity-70">
+                    <img
+                      src={image.dataURL}
+                      className="w-full h-full object-cover"
+                      onClick={() => {
+                        if (!multiple || !onRemove) {
+                          onImageRemove(index);
+                        } else {
+                          onRemove(index);
+                        }
+                      }}
+                      alt={image.file?.name}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <div
+                className={classNames(
+                  "w-full h-[350px] text-text1 dark:bg-gray-500 dark:text-white font-medium rounded-lg shadow-md flex items-center justify-center duration-200",
+                  isDragging && "opacity-70 scale-110"
+                )}
+                {...dragProps}
+              >
+                <div className="flex flex-col gap-y-2 items-center">
+                  <IconImage className="w-6 h-6" />
+                  <span>Drop your photo here</span>
+                  <span>or</span>
+                  <Button type="button" primary onClick={onImageUpload}>
+                    Browse disk
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }}
     </ImageUploading>
   );
 };

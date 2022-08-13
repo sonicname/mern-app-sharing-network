@@ -12,9 +12,9 @@ import axios from "axios";
 
 import { IPost, ITag, IRequestGetTags } from "../../interfaces";
 import postsReducers from "./postsReducers";
-import { useAuthContext } from "../auth";
 import customAPI from "../../apis/CustomAPI";
 import { Action } from "./postsAction";
+import { useAuthContext } from "../auth/authContext";
 
 export interface IPostsState {
   tags: ITag[];
@@ -87,11 +87,15 @@ export const PostsProvider = (props: { children: ReactNode }) => {
       formData.append("description", description);
 
       thumbnail.forEach((thumb) => {
-        formData.append("thumbnail", thumb, thumb.name);
+        formData.append("thumbnail", thumb.file as File, thumb.name);
       });
 
       attachments.forEach((attachment) => {
-        formData.append("attachments", attachment, attachment.name);
+        formData.append(
+          "attachments",
+          attachment.file as File,
+          attachment.name
+        );
       });
 
       tags.forEach((tag) => {
@@ -169,14 +173,14 @@ export const PostsProvider = (props: { children: ReactNode }) => {
   const getImagesFromDisk = (images: ImageListType) => {
     dispatch({
       type: Action.GET_IMAGES_IN_DISK,
-      payload: images.map((img) => img.file) as File[],
+      payload: images,
     });
   };
 
   const getThumbnailFromDisk = (images: ImageListType) => {
     dispatch({
       type: Action.GET_THUMBNAIL_IN_DISK,
-      payload: images.map((img) => img.file) as File[],
+      payload: images,
     });
   };
 

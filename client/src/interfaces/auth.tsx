@@ -1,4 +1,5 @@
 import { ITag } from "./tags";
+import { ImageListType } from "react-images-uploading";
 
 export interface IAuthInfoBase {
   email: string;
@@ -19,6 +20,6 @@ export interface IPost {
   title: string;
   description: string;
   tags: ITag[];
-  attachments: File[];
-  thumbnail: File[];
+  attachments: ImageListType;
+  thumbnail: ImageListType;
 }
