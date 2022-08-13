@@ -106,16 +106,10 @@ const likePost = async (req: Request, res: Response) => {
   const { postID } = req.body as IRequestLikePost;
   if (!postID) throw new BadRequest("Please provide postID!");
 
-  const post = await Post.findOne({ _id: postID });
-  if (!post) throw new BadRequest("Post doesn't exists!");
-
-  if (post.postLikes.includes(req.user?.userID))
-    throw new BadRequest("You are already liked this post!");
-
   await Post.updateOne(
     { _id: postID },
     {
-      $push: {
+      $addToSet: {
         postLikes: req.user?.userID,
       },
     }
@@ -128,9 +122,6 @@ const likePost = async (req: Request, res: Response) => {
 const dislikePost = async (req: Request, res: Response) => {
   const { postID } = req.body as IRequestLikePost;
   if (!postID) throw new BadRequest("Please provide postID!");
-
-  const post = await Post.findOne({ _id: postID });
-  if (!post) throw new BadRequest("Post doesn't exists!");
 
   await Post.updateOne(
     { _id: postID },
