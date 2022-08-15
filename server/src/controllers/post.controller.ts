@@ -21,7 +21,7 @@ import {
 const getPosts = async (req: Request, res: Response) => {
   const { page, limit, search } = req.body as IRequestGetPosts;
 
-  const queryObject: IQueryObject = {};
+  const queryObject: IQueryObject = { postStatus: "accepted" };
 
   if (search) {
     queryObject.title = {
@@ -59,7 +59,7 @@ const getPostById = async (req: Request, res: Response) => {
   const { postID } = req.params as unknown as IRequestGetPostByID;
   if (!postID) throw new BadRequest("Please provide postID!");
 
-  const post = await Post.findById(postID)
+  const post = await Post.findOne({ _id: postID, postStatus: "accepted" })
     .populate({
       path: "tags",
       select: "name -_id",
@@ -84,24 +84,49 @@ const getPostById = async (req: Request, res: Response) => {
 
 const getPostsByTag = async (req: Request, res: Response) => {
   const { tagID } = req.params as unknown as IRequestGetPostsByTag;
+  const { page, limit } = req.body as IRequestGetPosts;
   if (!tagID) throw new BadRequest("Please provide tagID!");
+
+  const LIMIT = Number(limit) || 10;
+  const SKIP = !Number(page) || Number(page) <= 1 ? 0 : LIMIT * Number(page);
+  const countPosts = await Post.countDocuments({
+    tags: {
+      $all: [tagID],
+    },
+    postStatus: "accepted",
+  });
+  const totalPages = Math.ceil(countPosts / LIMIT);
 
   const posts = await Post.find({
     tags: {
       $all: [tagID],
     },
-  });
+    postStatus: "accepted",
+  })
+    .skip(SKIP)
+    .limit(LIMIT);
 
   return res.status(StatusCodes.OK).json({
+    page: page ? page : 1,
+    totalPages,
     posts,
   });
 };
 
 const getPostsByUserID = async (req: Request, res: Response) => {
   const { userID } = req.params as unknown as IRequestGetPostsByUserID;
+  const { page, limit } = req.body as IRequestGetPosts;
   if (!userID) throw new BadRequest("Please provide userID!");
 
-  const posts = await Post.find({ uploadBy: userID })
+  const LIMIT = Number(limit) || 10;
+  const SKIP = !Number(page) || Number(page) <= 1 ? 0 : LIMIT * Number(page);
+  const countPosts = await Post.countDocuments({
+    uploadBy: userID,
+    postStatus: "accepted",
+  });
+  const totalPages = Math.ceil(countPosts / LIMIT);
+
+  const posts = await Post.find({ uploadBy: userID, postStatus: "accepted" })
     .populate({
       path: "tags",
       select: "name",
@@ -109,9 +134,15 @@ const getPostsByUserID = async (req: Request, res: Response) => {
     .populate({
       path: "storages",
       select: "thumbnail",
-    });
+    })
+    .skip(SKIP)
+    .limit(LIMIT);
 
-  return res.status(StatusCodes.OK).json(posts);
+  return res.status(StatusCodes.OK).json({
+    page: page ? page : 1,
+    totalPages,
+    posts,
+  });
 };
 
 const createPost = async (req: Request, res: Response) => {

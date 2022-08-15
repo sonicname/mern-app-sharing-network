@@ -11,7 +11,12 @@ import { useNavigate } from "react-router-dom";
 
 import { authReducers } from "./authReducers";
 import { Action } from "./authAction";
-import { IAuthInfoBase, IExtentAuthInfo, IUserToken } from "../../interfaces";
+import {
+  IUserToken,
+  IRequestUpdateUser,
+  IRequestSignIn,
+  IRequestSignUp,
+} from "../../interfaces";
 import customAPI from "../../apis/CustomAPI";
 
 export interface IAuthState {
@@ -19,9 +24,9 @@ export interface IAuthState {
   username: string | null;
   email: string | null;
   loadingSubmit: boolean;
-  signIn: (p: IAuthInfoBase) => Promise<void>;
-  signUp: (p: IExtentAuthInfo) => Promise<void>;
-  updateUser: (p: IExtentAuthInfo) => Promise<void>;
+  signIn: (p: IRequestSignIn) => Promise<void>;
+  signUp: (p: IRequestSignUp) => Promise<void>;
+  updateUser: (p: IRequestUpdateUser) => Promise<void>;
   logout: () => void;
 }
 
@@ -87,7 +92,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
     checkState("username", authState.username);
   }, [authState.token, authState.email, authState.username]);
 
-  const signIn = async ({ email, password }: IAuthInfoBase) => {
+  const signIn = async ({ email, password }: IRequestSignIn) => {
     dispatch({ type: Action.SETUP_USER_BEGIN });
     try {
       const { data } = await authClient.post<IUserToken>("/auth/login", {
@@ -116,36 +121,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
     }
   };
 
-  const updateUser = async ({ username, email, password }: IExtentAuthInfo) => {
-    dispatch({ type: Action.SETUP_USER_BEGIN });
-    try {
-      const { data } = await authClient.patch<IUserToken>("/auth/update", {
-        username,
-        email,
-        password,
-      });
-
-      dispatch({
-        type: Action.SETUP_USER_SUCCESS,
-        payload: {
-          username: data.username,
-          email: data.email,
-          token: data.token,
-        },
-      });
-
-      addAllAuthInfo(data);
-      toast.success("Update profile success!");
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        // @ts-ignore
-        toast.error(e.response.data.message);
-      }
-      dispatch({ type: Action.SETUP_USER_ERROR });
-    }
-  };
-
-  const signUp = async ({ email, password, username }: IExtentAuthInfo) => {
+  const signUp = async ({ email, password, username }: IRequestSignUp) => {
     dispatch({ type: Action.SETUP_USER_BEGIN });
     try {
       const { data } = await authClient.post<IUserToken>("/auth/register", {
@@ -165,6 +141,41 @@ export const AuthProvider = (props: { children: ReactNode }) => {
 
       addAllAuthInfo(data);
       toast.success("Sign in success!");
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        // @ts-ignore
+        toast.error(e.response.data.message);
+      }
+      dispatch({ type: Action.SETUP_USER_ERROR });
+    }
+  };
+
+  const updateUser = async ({
+    username,
+    email,
+    password,
+    confirmPassword,
+  }: IRequestUpdateUser) => {
+    dispatch({ type: Action.SETUP_USER_BEGIN });
+    try {
+      const { data } = await authClient.patch<IUserToken>("/auth/update", {
+        username,
+        email,
+        password,
+        confirmPassword,
+      });
+
+      dispatch({
+        type: Action.SETUP_USER_SUCCESS,
+        payload: {
+          username: data.username,
+          email: data.email,
+          token: data.token,
+        },
+      });
+
+      addAllAuthInfo(data);
+      toast.success("Update profile success!");
     } catch (e) {
       if (axios.isAxiosError(e)) {
         // @ts-ignore

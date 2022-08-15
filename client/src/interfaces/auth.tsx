@@ -1,25 +1,23 @@
-import { ITag } from "./tags";
-import { ImageListType } from "react-images-uploading";
+interface IUsername {
+  username: string;
+}
 
-export interface IAuthInfoBase {
+interface IEmail {
   email: string;
+}
+
+interface IPassword {
   password: string;
 }
 
-export interface IExtentAuthInfo extends IAuthInfoBase {
-  username: string;
+export interface IRequestSignIn extends IEmail, IPassword {}
+
+export interface IRequestSignUp extends IRequestSignIn, IUsername {}
+
+export interface IRequestUpdateUser extends IRequestSignIn, IUsername {
+  confirmPassword: string;
 }
 
-export interface IUserToken {
-  email: string;
-  username: string;
+export interface IUserToken extends IEmail, IUsername {
   token: string;
-}
-
-export interface IPost {
-  title: string;
-  description: string;
-  tags: ITag[];
-  attachments: ImageListType;
-  thumbnail: ImageListType;
 }
