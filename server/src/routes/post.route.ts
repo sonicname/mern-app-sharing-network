@@ -6,11 +6,17 @@ import {
   createPost,
   deletePost,
   dislikePost,
+  getPostById,
+  getPostsByTag,
   getPosts,
   likePost,
+  getPostsByUserID,
 } from "@controller/post.controller";
 
 postRoute.get("/", getPosts);
+postRoute.get("/tag/:tagID", getPostsByTag);
+postRoute.get("/user/:userID", getPostsByUserID);
+postRoute.get("/:postID", getPostById);
 postRoute.post("/create", authMiddleware, createPost);
 postRoute.delete("/delete", authMiddleware, deletePost);
 postRoute.post("/like", authMiddleware, likePost);

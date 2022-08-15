@@ -18,4 +18,6 @@ export interface ILoginRequest extends IEmail, IPassword {}
 
 export interface IRegisterRequest extends IEmail, IPassword, IUsername {}
 
-export interface IUpdateRequest extends IEmail, IPassword, IUsername {}
+export interface IUpdateRequest extends IEmail, IPassword, IUsername {
+  confirmPassword: string;
+}

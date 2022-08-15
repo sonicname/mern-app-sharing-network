@@ -12,7 +12,10 @@ import {
   IRequestDeletePost,
   IRequestGetPosts,
   IRequestLikePost,
+  IRequestGetPostByID,
+  IRequestGetPostsByTag,
   IRequestPostImg,
+  IRequestGetPostsByUserID,
 } from "@interfaces/post.interface";
 
 const getPosts = async (req: Request, res: Response) => {
@@ -50,6 +53,65 @@ const getPosts = async (req: Request, res: Response) => {
     page,
     posts,
   });
+};
+
+const getPostById = async (req: Request, res: Response) => {
+  const { postID } = req.params as unknown as IRequestGetPostByID;
+  if (!postID) throw new BadRequest("Please provide postID!");
+
+  const post = await Post.findById(postID)
+    .populate({
+      path: "tags",
+      select: "name -_id",
+    })
+    .populate({
+      path: "storages",
+      select: "thumbnail attachments -_id",
+    })
+    .populate({
+      path: "uploadBy",
+      select: "username",
+    })
+    .populate({
+      path: "postLikes",
+      select: "username",
+    });
+
+  if (!post) throw new BadRequest(`Post doesn't exists!`);
+
+  return res.status(StatusCodes.OK).json(post);
+};
+
+const getPostsByTag = async (req: Request, res: Response) => {
+  const { tagID } = req.params as unknown as IRequestGetPostsByTag;
+  if (!tagID) throw new BadRequest("Please provide tagID!");
+
+  const posts = await Post.find({
+    tags: {
+      $all: [tagID],
+    },
+  });
+
+  return res.status(StatusCodes.OK).json({
+    posts,
+  });
+};
+
+const getPostsByUserID = async (req: Request, res: Response) => {
+  const { userID } = req.params as unknown as IRequestGetPostsByUserID;
+  if (!userID) throw new BadRequest("Please provide userID!");
+
+  const posts = await Post.find({ uploadBy: userID })
+    .populate({
+      path: "tags",
+      select: "name",
+    })
+    .populate({
+      path: "storages",
+      select: "thumbnail",
+    });
+
+  return res.status(StatusCodes.OK).json(posts);
 };
 
 const createPost = async (req: Request, res: Response) => {
@@ -137,4 +199,13 @@ const dislikePost = async (req: Request, res: Response) => {
   });
 };
 
-export { createPost, deletePost, getPosts, likePost, dislikePost };
+export {
+  createPost,
+  deletePost,
+  getPosts,
+  getPostById,
+  likePost,
+  dislikePost,
+  getPostsByTag,
+  getPostsByUserID,
+};
