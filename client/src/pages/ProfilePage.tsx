@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { schemaSignUp } from "../validation/schema";
+import { schemaUpdateUser} from "../validation/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import {
@@ -22,7 +22,7 @@ const ProfilePage = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onSubmit",
-    resolver: yupResolver(schemaSignUp),
+    resolver: yupResolver(schemaUpdateUser),
   });
 
   return (
@@ -42,6 +42,7 @@ const ProfilePage = () => {
                 username: values.username,
                 email: values.email,
                 password: values.password,
+                confirmPassword: values.confirmPassword
               })
             )}
             className="mt-5 flex flex-col gap-y-5"
@@ -71,6 +72,18 @@ const ProfilePage = () => {
               icon={<IconLock className="h-4 w-4" />}
               placeholder={"Enter your password..."}
               error={errors.password?.message as unknown as string}
+              isPasswordField={true}
+              onClickIconPass={toggleShowPass}
+              showPass={showPass}
+            />
+
+            <Field
+              control={control}
+              type={showPass ? "text" : "password"}
+              name={"confirmPassword"}
+              icon={<IconLock className="h-4 w-4" />}
+              placeholder={"Enter your old password..."}
+              error={errors.confirmPassword?.message as unknown as string}
               isPasswordField={true}
               onClickIconPass={toggleShowPass}
               showPass={showPass}

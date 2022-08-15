@@ -15,6 +15,10 @@ interface IPostID {
   postID: string;
 }
 
+interface IPostStatus {
+  postStatus: "pending" | "accepted" | "rejected";
+}
+
 export interface IPost extends ITitle, IDescription {
   storages: PopulatedDoc<IStorage & Document>;
   tags: PopulatedDoc<ITag & Document>;
@@ -41,7 +45,7 @@ export interface IRequestGetPosts {
   sort?: string;
 }
 
-export interface IQueryObject {
+export interface IQueryObject extends IPostStatus {
   title?: {
     $regex: string;
     $options: string;

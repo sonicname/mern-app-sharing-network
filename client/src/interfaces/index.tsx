@@ -17,15 +17,21 @@ import {
   ISelectProps,
 } from "./components";
 
-import { IUserToken, IExtentAuthInfo, IAuthInfoBase, IPost } from "./auth";
+import {
+  IUserToken,
+  IRequestUpdateUser,
+  IRequestSignIn,
+  IRequestSignUp,
+} from "./auth";
 
 import { ITag } from "./tags";
 
-import { UploadPageStates, IRequestGetTags } from "./post";
+import { UploadPageStates, IRequestGetTags, IPost } from "./post";
 
 export type {
-  IExtentAuthInfo,
-  IAuthInfoBase,
+  IRequestUpdateUser,
+  IRequestSignUp,
+  IRequestSignIn,
   IUserToken,
   IDropDownProps,
   InputProps,
@@ -42,9 +48,9 @@ export type {
   ILoadingProps,
   IButtonProps,
   ITag,
-  IPost,
   IProtectedPageProps,
   ISelectProps,
   UploadPageStates,
   IRequestGetTags,
+  IPost,
 };

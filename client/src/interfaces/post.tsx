@@ -1,4 +1,13 @@
 import { ITag } from "./tags";
+import { ImageListType } from "react-images-uploading";
+
+export interface IPost {
+  title: string;
+  description: string;
+  tags: ITag[];
+  thumbnail: ImageListType;
+  attachments: ImageListType;
+}
 
 export interface UploadPageStates {
   tags: ITag[];
