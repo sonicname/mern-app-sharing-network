@@ -37,9 +37,11 @@ const loginUser = async (req: Request, res: Response) => {
 };
 
 const registerUser = async (req: Request, res: Response) => {
-  const { email, password, username } = req.body as IRegisterRequest;
+  const { email, username, password } = req.body as IRegisterRequest;
   if (!email || !password || !username) {
-    throw new BadRequest("Please provide all username, email, password!");
+    throw new BadRequest(
+      "Please provide all username, email, password, confirm password!"
+    );
   }
 
   const user = await User.create({
@@ -58,15 +60,23 @@ const registerUser = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: Request, res: Response) => {
-  const { email, password, username } = req.body as IUpdateRequest;
-  if (!email || !password || !username)
-    throw new BadRequest("Please provide all email, password, username");
+  const { email, password, username, confirmPassword } =
+    req.body as IUpdateRequest;
+  if (!email || !password || !username || !confirmPassword)
+    throw new BadRequest(
+      "Please provide all email, password, username, confirm password"
+    );
 
   const user = await User.findOne({ _id: req.user?.userID }).select(
     "+password"
   );
 
   if (!user) throw new UnauthenticatedError("Invalid credentials");
+  const isPasswordMatch = await AuthHelper.comparePassword(
+    confirmPassword,
+    user.password
+  );
+  if (!isPasswordMatch) throw new UnauthenticatedError("Invalid credentials");
 
   user.email = email;
   user.username = username;

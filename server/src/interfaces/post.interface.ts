@@ -11,6 +11,10 @@ interface IDescription {
   description: string;
 }
 
+interface IPostID {
+  postID: string;
+}
+
 export interface IPost extends ITitle, IDescription {
   storages: PopulatedDoc<IStorage & Document>;
   tags: PopulatedDoc<ITag & Document>;
@@ -28,9 +32,7 @@ export interface IRequestCreatePost extends ITitle, IDescription {
   tags: string[];
 }
 
-export interface IRequestDeletePost {
-  postID: string;
-}
+export interface IRequestDeletePost extends IPostID {}
 
 export interface IRequestGetPosts {
   page?: string;
@@ -46,6 +48,14 @@ export interface IQueryObject {
   };
 }
 
-export interface IRequestLikePost {
-  postID: string;
+export interface IRequestLikePost extends IPostID {}
+
+export interface IRequestGetPostByID extends IPostID {}
+
+export interface IRequestGetPostsByTag {
+  tagID: string;
+}
+
+export interface IRequestGetPostsByUserID {
+  userID: string;
 }
