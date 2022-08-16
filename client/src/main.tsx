@@ -19,6 +19,7 @@ const SignInPage = lazy(() => import("./pages/SignInPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const GalleryPage = lazy(() => import("./pages/GalleryPage"));
 const UploadPage = lazy(() => import("./pages/UploadPage"));
+const DashBoardPage = lazy(() => import("./pages/DashBoardPage"));
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <>
@@ -51,6 +52,14 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                   element={
                     <ProtectedPage>
                       <UploadPage />
+                    </ProtectedPage>
+                  }
+                />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedPage>
+                      <DashBoardPage />
                     </ProtectedPage>
                   }
                 />

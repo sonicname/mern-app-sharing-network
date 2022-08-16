@@ -7,23 +7,19 @@ const PostSchema = new Schema<IPost>(
       type: String,
       required: [true, "Please provide post title!"],
       trim: true,
+      min: 3,
+      max: 15,
     },
     description: {
       type: String,
       trim: true,
+      max: 255,
     },
     storages: {
       type: Types.ObjectId,
       ref: "storage",
       required: ["true", "Please add image to post!"],
     },
-    tags: [
-      {
-        type: Types.ObjectId,
-        ref: "tags",
-        required: [true, "Please select tags!"],
-      },
-    ],
     uploadBy: {
       type: Types.ObjectId,
       ref: "users",
@@ -35,11 +31,6 @@ const PostSchema = new Schema<IPost>(
         ref: "users",
       },
     ],
-    postStatus: {
-      type: String,
-      enum: ["pending", "accepted", "rejected"],
-      default: "pending",
-    },
   },
   {
     timestamps: true,

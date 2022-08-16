@@ -8,7 +8,6 @@ export const errorHandleMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(error);
   const defaultError: IError = {
     message: error.message,
     statusCode: error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,

@@ -23,7 +23,6 @@ export interface IAttachment extends IAttachmentURL {
 
 export interface IStorage {
   messageID: string;
-  thumbnail: IAttachmentURL;
-  attachments: IAttachmentURL[];
+  attachment: IAttachmentURL;
   uploadBy: PopulatedDoc<IUser & Document>;
 }

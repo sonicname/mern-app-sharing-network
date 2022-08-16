@@ -9,6 +9,23 @@ export interface IPost {
   attachments: ImageListType;
 }
 
+export interface IPendingPost {
+  _id: string;
+  title: string;
+  storages: {
+    thumbnail: {
+      url: string;
+      proxy_url: string;
+    };
+  };
+  uploadBy: {
+    _id: string;
+    username: string;
+  };
+  postStatus: string;
+  createdAt: Date;
+}
+
 export interface UploadPageStates {
   tags: ITag[];
   filterTags: ITag[];
@@ -21,4 +38,11 @@ export interface UploadPageStates {
 export interface IRequestGetTags {
   message: string;
   tags: ITag[];
+}
+
+export interface IRequestGetPosts {
+  page: number;
+  countPosts: number;
+  totalPages: number;
+  posts: IPendingPost[];
 }

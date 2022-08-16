@@ -12,20 +12,13 @@ export default class DiscordWebhook {
   }
 
   public static async uploadFile(
-    attachments: IFile[] | IFile,
-    thumbnail: IFile,
+    attachment: IFile,
     userID: string
   ): Promise<Types.ObjectId> {
     try {
       const formData = new FormData();
-      formData.append("thumbnail", thumbnail.data, thumbnail.name);
-      if (Array.isArray(attachments)) {
-        attachments.forEach((attachment) => {
-          formData.append(`attachments`, attachment.data, attachment.name);
-        });
-      } else {
-        formData.append("attachments", attachments.data, attachments.name);
-      }
+      formData.append("file", attachment.data, attachment.name);
+
       const { data } = await axios.post<{
         id: string;
         attachments: IAttachment[];
@@ -35,16 +28,10 @@ export default class DiscordWebhook {
 
       const storage = await Storage.create({
         messageID: data.id,
-        thumbnail: {
+        attachment: {
           url: data.attachments[0].url,
           proxy_url: data.attachments[0].proxy_url,
         },
-        attachments: data.attachments.slice(1).map((attachment) => {
-          return {
-            url: attachment.url,
-            proxy_url: attachment.proxy_url,
-          };
-        }),
         uploadBy: userID,
       });
 
