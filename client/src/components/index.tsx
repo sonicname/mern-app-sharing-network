@@ -20,8 +20,6 @@ import {
   IconDocument,
   IconRemove,
   IconDescription,
-  IconHashTag,
-  IconTag,
 } from "./icons";
 import Container from "./layouts/Container";
 import Header from "./layouts/Header";
@@ -30,7 +28,6 @@ import NavLinkItem from "./navbar/NavLinkItem";
 import NavHamburger from "./navbar/NavHamburger";
 import NavSearch from "./navbar/NavSearch";
 import NavSwitchDarkMode from "./navbar/NavSwitchDarkMode";
-import Select from "./select/Select";
 import ImageUploader from "./upload/ImageUploader";
 
 export {
@@ -50,8 +47,6 @@ export {
   IconEyeOpen,
   IconLight,
   IconImage,
-  IconHashTag,
-  IconTag,
   IconDropDown,
   IconEyeClose,
   IconLogout,
@@ -64,6 +59,5 @@ export {
   NavHamburger,
   NavLinkItem,
   NavSwitchDarkMode,
-  Select,
   ImageUploader,
 };

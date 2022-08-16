@@ -1,6 +1,5 @@
 import { Document, PopulatedDoc } from "mongoose";
 import { IFile, IStorage } from "@interfaces/storage.interface";
-import { ITag } from "@interfaces/tags.interface";
 import { IUser } from "@interfaces/auth.interface";
 
 interface ITitle {
@@ -15,26 +14,17 @@ interface IPostID {
   postID: string;
 }
 
-interface IPostStatus {
-  postStatus: "pending" | "accepted" | "rejected";
-}
-
 export interface IPost extends ITitle, IDescription {
   storages: PopulatedDoc<IStorage & Document>;
-  tags: PopulatedDoc<ITag & Document>;
   uploadBy: PopulatedDoc<IUser & Document>;
   postLikes: PopulatedDoc<IUser & Document>[];
-  postStatus: string;
 }
 
 export interface IRequestPostImg {
-  attachments: IFile[];
-  thumbnail: IFile;
+  attachment: IFile;
 }
 
-export interface IRequestCreatePost extends ITitle, IDescription {
-  tags: string[];
-}
+export interface IRequestCreatePost extends ITitle, IDescription {}
 
 export interface IRequestDeletePost extends IPostID {}
 
@@ -45,7 +35,7 @@ export interface IRequestGetPosts {
   sort?: string;
 }
 
-export interface IQueryObject extends IPostStatus {
+export interface IQueryObject {
   title?: {
     $regex: string;
     $options: string;
@@ -55,10 +45,6 @@ export interface IQueryObject extends IPostStatus {
 export interface IRequestLikePost extends IPostID {}
 
 export interface IRequestGetPostByID extends IPostID {}
-
-export interface IRequestGetPostsByTag {
-  tagID: string;
-}
 
 export interface IRequestGetPostsByUserID {
   userID: string;

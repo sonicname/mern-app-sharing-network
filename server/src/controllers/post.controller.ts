@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import { BadRequest, UnauthenticatedError } from "@errors/errors";
 import DiscordWebhook from "@helpers/DiscordWebhook";
+
 import Post from "@models/Post.model";
 import Storage from "@models/Storage.model";
 
@@ -13,7 +14,6 @@ import {
   IRequestGetPosts,
   IRequestLikePost,
   IRequestGetPostByID,
-  IRequestGetPostsByTag,
   IRequestPostImg,
   IRequestGetPostsByUserID,
 } from "@interfaces/post.interface";
@@ -21,7 +21,7 @@ import {
 const getPosts = async (req: Request, res: Response) => {
   const { page, limit, search } = req.body as IRequestGetPosts;
 
-  const queryObject: IQueryObject = { postStatus: "accepted" };
+  const queryObject: IQueryObject = {};
 
   if (search) {
     queryObject.title = {
@@ -36,7 +36,7 @@ const getPosts = async (req: Request, res: Response) => {
   const SKIP = !Number(page) || Number(page) <= 1 ? 0 : LIMIT * Number(page);
 
   let posts = await Post.find(queryObject)
-    .select("-description -tags -__v -updatedAt -post")
+    .select("-description -__v -updatedAt -post")
     .populate({
       path: "storages",
       select: "thumbnail -_id",
@@ -59,14 +59,10 @@ const getPostById = async (req: Request, res: Response) => {
   const { postID } = req.params as unknown as IRequestGetPostByID;
   if (!postID) throw new BadRequest("Please provide postID!");
 
-  const post = await Post.findOne({ _id: postID, postStatus: "accepted" })
-    .populate({
-      path: "tags",
-      select: "name -_id",
-    })
+  const post = await Post.findOne({ _id: postID })
     .populate({
       path: "storages",
-      select: "thumbnail attachments -_id",
+      select: "attachment -_id",
     })
     .populate({
       path: "uploadBy",
@@ -82,37 +78,6 @@ const getPostById = async (req: Request, res: Response) => {
   return res.status(StatusCodes.OK).json(post);
 };
 
-const getPostsByTag = async (req: Request, res: Response) => {
-  const { tagID } = req.params as unknown as IRequestGetPostsByTag;
-  const { page, limit } = req.body as IRequestGetPosts;
-  if (!tagID) throw new BadRequest("Please provide tagID!");
-
-  const LIMIT = Number(limit) || 10;
-  const SKIP = !Number(page) || Number(page) <= 1 ? 0 : LIMIT * Number(page);
-  const countPosts = await Post.countDocuments({
-    tags: {
-      $all: [tagID],
-    },
-    postStatus: "accepted",
-  });
-  const totalPages = Math.ceil(countPosts / LIMIT);
-
-  const posts = await Post.find({
-    tags: {
-      $all: [tagID],
-    },
-    postStatus: "accepted",
-  })
-    .skip(SKIP)
-    .limit(LIMIT);
-
-  return res.status(StatusCodes.OK).json({
-    page: page ? page : 1,
-    totalPages,
-    posts,
-  });
-};
-
 const getPostsByUserID = async (req: Request, res: Response) => {
   const { userID } = req.params as unknown as IRequestGetPostsByUserID;
   const { page, limit } = req.body as IRequestGetPosts;
@@ -122,15 +87,10 @@ const getPostsByUserID = async (req: Request, res: Response) => {
   const SKIP = !Number(page) || Number(page) <= 1 ? 0 : LIMIT * Number(page);
   const countPosts = await Post.countDocuments({
     uploadBy: userID,
-    postStatus: "accepted",
   });
   const totalPages = Math.ceil(countPosts / LIMIT);
 
-  const posts = await Post.find({ uploadBy: userID, postStatus: "accepted" })
-    .populate({
-      path: "tags",
-      select: "name",
-    })
+  const posts = await Post.find({ uploadBy: userID })
     .populate({
       path: "storages",
       select: "thumbnail",
@@ -147,22 +107,20 @@ const getPostsByUserID = async (req: Request, res: Response) => {
 
 const createPost = async (req: Request, res: Response) => {
   if (!req.files) throw new BadRequest("File upload is not provided!");
-  const { tags, title, description } = req.body as IRequestCreatePost;
-  const { attachments, thumbnail } = req.files as unknown as IRequestPostImg;
+  const { title, description } = req.body as IRequestCreatePost;
+  const { attachment } = req.files as unknown as IRequestPostImg;
 
-  if (!tags || !title || !description || !attachments || !thumbnail)
+  if (!title || !description || !attachment)
     throw new BadRequest("Please provide all field!");
 
   const storageID = await DiscordWebhook.uploadFile(
-    attachments,
-    thumbnail,
+    attachment,
     req.user?.userID as string
   );
 
   const post = await Post.create({
     title,
     description,
-    tags,
     storages: storageID,
     uploadBy: req.user?.userID as string,
   });
@@ -181,7 +139,7 @@ const deletePost = async (req: Request, res: Response) => {
 
   if (!post) throw new BadRequest("Post doesn't exists!");
   if (post.uploadBy.toString() !== req.user?.userID)
-    throw new UnauthenticatedError("Invalid Credentials");
+    throw new UnauthenticatedError("Invalid credentials");
 
   const files = await Storage.findOne({ _id: post.storages._id });
   await Promise.all([
@@ -237,6 +195,5 @@ export {
   getPostById,
   likePost,
   dislikePost,
-  getPostsByTag,
   getPostsByUserID,
 };

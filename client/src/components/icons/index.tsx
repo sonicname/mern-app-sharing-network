@@ -11,8 +11,6 @@ import IconImage from "./IconImage";
 import IconDocument from "./IconDocument";
 import IconRemove from "./IconRemove";
 import IconDescription from "./IconDescription";
-import IconTag from "./IconTag";
-import IconHashTag from "./IconHashTag";
 
 export {
   IconMoon,
@@ -28,6 +26,4 @@ export {
   IconDocument,
   IconRemove,
   IconDescription,
-  IconTag,
-  IconHashTag,
 };
