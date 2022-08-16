@@ -24,9 +24,7 @@ import {
   IRequestSignUp,
 } from "./auth";
 
-import { ITag } from "./tags";
-
-import { UploadPageStates, IRequestGetTags, IPost } from "./post";
+import { UploadPageStates, IPost } from "./post";
 
 export type {
   IRequestUpdateUser,
@@ -47,10 +45,8 @@ export type {
   IToggleProps,
   ILoadingProps,
   IButtonProps,
-  ITag,
   IProtectedPageProps,
   ISelectProps,
   UploadPageStates,
-  IRequestGetTags,
   IPost,
 };

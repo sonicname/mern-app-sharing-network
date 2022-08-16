@@ -93,5 +93,4 @@ export interface ImageUploaderProps {
   multiple: boolean;
   onChange: (imageList: ImageListType) => void;
   onRemove?: (index: number) => void;
-  label: string;
 }

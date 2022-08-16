@@ -12,7 +12,6 @@ const ImageUploader = ({
   max,
   multiple,
   onChange,
-  label,
   onRemove,
 }: ImageUploaderProps) => {
   return (
@@ -25,7 +24,6 @@ const ImageUploader = ({
       {({ imageList, onImageUpload, isDragging, dragProps, onImageRemove }) => {
         return (
           <div className="flex flex-col gap-y-2">
-            <h3 className="text-md font-semibold">{label}</h3>
             {imageList.length > 0 ? (
               <Swiper
                 grabCursor={true}

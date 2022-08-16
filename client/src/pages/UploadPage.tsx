@@ -1,21 +1,14 @@
-import { v4 } from "uuid";
-import classNames from "classnames";
-import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-
-import useOnClickOutSide from "../hooks/useOnClickOutSide";
-import { usePostsContext } from "../contexts";
 import {
   Button,
   Container,
   Field,
   IconDescription,
   IconDocument,
-  IconHashTag,
   SharedLayout,
-  Select,
   ImageUploader,
 } from "../components";
+import { usePostsContext } from "../contexts";
 
 const UploadPage = () => {
   const {
@@ -24,31 +17,8 @@ const UploadPage = () => {
     formState: { isSubmitting },
   } = useForm();
 
-  const {
-    filterTags,
-    selectTags,
-    show,
-    images,
-    thumbnail,
-    createPost,
-    showFilter,
-    getAllTags,
-    handleChangeSelect,
-    handleSelectTag,
-    removeSelectedTag,
-    getImagesFromDisk,
-    getThumbnailFromDisk,
-    removeImages,
-    loading,
-    hideFilter,
-  } = usePostsContext();
-
-  const selectRef = useRef(null);
-  useOnClickOutSide(selectRef, hideFilter);
-
-  useEffect(() => {
-    getAllTags();
-  }, []);
+  const { images, createPost, getImagesFromDisk, removeImages, loading } =
+    usePostsContext();
 
   return (
     <SharedLayout>
@@ -64,11 +34,9 @@ const UploadPage = () => {
           <form
             onSubmit={handleSubmit((values) =>
               createPost({
-                tags: selectTags,
                 title: values.title,
                 description: values.description,
-                thumbnail,
-                attachments: images,
+                attachment: images,
               })
             )}
             className="mt-5 flex flex-col gap-y-5"
@@ -89,74 +57,12 @@ const UploadPage = () => {
               placeholder={"Enter description images collection..."}
             />
 
-            <div className="flex flex-col gap-y-2">
-              <Select
-                handleClickSelect={showFilter}
-                handleChangeSelect={handleChangeSelect}
-                placeholder={"Select tags for your images..."}
-              >
-                {show && filterTags.length > 0 && (
-                  <div
-                    className="absolute top-full w-full mt-2 bg-white dark:bg-[#212833] z-20 rounded-md flex flex-col shadow-lg border border-strock dark:border-darkStroke"
-                    ref={selectRef}
-                  >
-                    {filterTags.slice(0, 4).map((tag) => (
-                      <div
-                        key={tag._id}
-                        className={classNames(
-                          "group p-2 hover:bg-green-200 hover:dark:bg-white rounded-md cursor-pointer"
-                        )}
-                        onClick={() => handleSelectTag(tag)}
-                      >
-                        <span
-                          className={
-                            "group-hover:text-text1 font-semibold text-[14px] flex items-center gap-x-1"
-                          }
-                        >
-                          <IconHashTag className="w-3 h-3" />
-                          {tag.name}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </Select>
-
-              <div className="flex items-center gap-x-1 font-medium text-[14px]">
-                <span className="font-bold text-md">Tags:</span>
-                {selectTags.length > 0 ? (
-                  <div className="flex gap-x-1 flex-wrap">
-                    {selectTags.map((tag) => (
-                      <div
-                        key={v4()}
-                        className="flex gap-x-1 p-1 rounded bg-primary text-white hover:opacity-70 cursor-pointer"
-                        onClick={() => removeSelectedTag(tag)}
-                      >
-                        <span className="font-semibold">{tag.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  "..."
-                )}
-              </div>
-            </div>
-
-            <ImageUploader
-              images={thumbnail}
-              max={1}
-              multiple={false}
-              onChange={getThumbnailFromDisk}
-              label={"Thumbnail"}
-            />
-
             <ImageUploader
               images={images}
-              max={10}
-              multiple={true}
+              multiple={false}
               onChange={getImagesFromDisk}
-              label={"Images"}
               onRemove={removeImages}
+              max={1}
             />
 
             <Button type="submit" isLoading={isSubmitting && loading} primary>
